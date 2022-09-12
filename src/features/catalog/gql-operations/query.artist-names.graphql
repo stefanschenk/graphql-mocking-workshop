@@ -1,0 +1,6 @@
+query CatalogArtistNames {
+  catalogArtistNames {
+    total_values
+    data
+  }
+}

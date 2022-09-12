@@ -1,0 +1,17 @@
+query CardSearch($q: String!, $unique: String) {
+  cardSearch(q: $q, unique: $unique) {
+    data {
+      name
+      mana_cost
+      type_line
+      oracle_text
+      flavor_text
+      power
+      toughness
+      image_uris {
+        normal
+      }
+    }
+    has_more
+  }
+}

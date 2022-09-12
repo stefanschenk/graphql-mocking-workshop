@@ -1,0 +1,12 @@
+query SetList {
+  sets {
+    data {
+      code
+      name
+      card_count
+      set_type
+      icon_svg_uri
+      released_at
+    }
+  }
+}

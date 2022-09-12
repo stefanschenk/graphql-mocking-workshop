@@ -1,0 +1,21 @@
+query Symbology {
+  symbology {
+    object
+    has_more
+    data {
+      object
+      symbol
+      svg_uri
+      loose_variant
+      english
+      transposable
+      represents_mana
+      appears_in_mana_costs
+      cmc
+      funny
+      colors
+      gatherer_alternates
+    }
+  }
+}
+

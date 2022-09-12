@@ -1,0 +1,8 @@
+query catalogLandTypes {
+  catalogLandTypes {
+    object
+    uri
+    total_values
+    data
+  }
+}

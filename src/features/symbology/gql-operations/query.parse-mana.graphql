@@ -1,0 +1,11 @@
+query SymbologyParseMana($cost: String!) {
+  symbologyParseMana(cost: $cost) {
+    cost
+    cmc
+    colors
+    colorless
+    monocolored
+    multicolored
+  }
+}
+

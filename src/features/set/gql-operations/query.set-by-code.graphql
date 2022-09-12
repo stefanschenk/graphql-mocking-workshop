@@ -1,0 +1,23 @@
+query SetByCode($code: String!) {
+  setByCode(code: $code) {
+    id
+    code
+    mtgo_code
+    tcgplayer_id
+    name
+    set_type
+    released_at
+    block_code
+    block
+    parent_set_code
+    card_count
+    printed_size
+    digital
+    foil_only
+    nonfoil_only
+    scryfall_uri
+    uri
+    icon_svg_uri
+    search_uri
+  }
+}
