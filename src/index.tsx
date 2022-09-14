@@ -5,9 +5,10 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import App from './App';
 import './index.css';
 
+const graphqlUri = process.env.REACT_APP_GRAPHQL_URI ?? 'https://klankentapper.ssk-hosting.nl';
+
 const client = new ApolloClient({
-  uri: 'http://localhost:4000/graphql/data',
-  // uri: 'https://klankentapper.ssk-hosting.nl/graphql/data',
+  uri: `${graphqlUri}/graphql/data`,
   cache: new InMemoryCache(),
   connectToDevTools: true,
 });

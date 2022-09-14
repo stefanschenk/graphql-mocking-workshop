@@ -1,0 +1,19 @@
+overwrite: true
+schema: "https://klankentapper.ssk-hosting.nl/graphql/data"
+documents: "src/**/*.graphql"
+config:
+  avoidOptionals: # ensures `null`able properties are also "not" `undefined`able in generated TypeScript types ...
+    field: true
+  skipTypename: true # exclude GraphQL internal `__typename` properties from generated TypeScript types
+  typesPrefix: Gql # use `Gql` prefix for all generated types (e.g. interfaces, enums, union types etc.)
+  namingConvention:
+    enumValues: change-case#upperCase # use upper-case in combination with underscores for constant names of enum
+generates:
+  src/graphql-schema.generated.ts:
+    plugins:
+      - "typescript"
+      - "typescript-operations"
+      - "typescript-react-apollo"
+  ./graphql.schema.json:
+    plugins:
+      - "introspection"
