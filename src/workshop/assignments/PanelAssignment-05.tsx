@@ -149,7 +149,26 @@ const PanelAssignment05: React.FC<
             children: (
               <>
                 <Paragraph>
-                  <Text strong>Extend Playwright test</Text>
+                  <Text strong>base.test.ts (extend Playwright test</Text>
+                  <SyntaxHighlighter
+                    customStyle={{ border: '1px lightgrey solid', fontSize: '12px' }}
+                    lineNumberStyle={{ color: 'black', opacity: '0.4' }}
+                    language="typescript"
+                    showLineNumbers
+                    style={docco}
+                  >
+                    {extraInfoTestExtend.trim()}
+                  </SyntaxHighlighter>
+                  <Text strong>view-catalog-land-types.spec.ts</Text>
+                  <SyntaxHighlighter
+                    customStyle={{ border: '1px lightgrey solid', fontSize: '12px' }}
+                    lineNumberStyle={{ color: 'black', opacity: '0.4' }}
+                    language="typescript"
+                    showLineNumbers
+                    style={docco}
+                  >
+                    {extraInfoTestcase.trim()}
+                  </SyntaxHighlighter>
                 </Paragraph>
               </>
             ),
@@ -178,7 +197,7 @@ const PanelAssignment05: React.FC<
                   showLineNumbers
                   style={docco}
                 >
-                  {solutionApolloServer.trim()}
+                  {solutionTestCase.trim()}
                 </SyntaxHighlighter>
                 <Paragraph />
                 <Divider plain />
@@ -285,6 +304,71 @@ test('View Catalog Land types', async ({ page }) => {
   await expect(page.locator('.ant-tag').nth(3)).toHaveText('bos');
   await expect(page.locator('.ant-tag').nth(4)).toHaveText('moeras');
   await expect(page.locator('.ant-tag').nth(5)).toHaveText('bergen');
+});
+`;
+
+const extraInfoTestExtend = `
+import { GraphQLRequest } from '@apollo/client';
+import { expect, test as base } from '@playwright/test';
+import { apolloServer } from './apollo-server';
+import { store, TestDataStore } from './store/store';
+
+/**
+ * The _test_ class from Playwright is extended with fixtures (https://playwright.dev/docs/test-fixtures)
+ * Execution order (https://playwright.dev/docs/test-fixtures#execution-order)
+ */
+export const test = base.extend<{ setupTest: void; store: TestDataStore }>({
+  store,
+
+  /**
+   * This fixture runs for every _test_
+   */
+  setupTest: [
+    async ({ context }, use) => {
+      const server = apolloServer(store);
+
+      await context.route(/c\\d.scryfall.com/, (route, request) => {
+        route.abort('blockedbyclient');
+      });
+
+      await context.route(/\\/graphql\\/data/, async (route, request) => {
+        const body = request.postDataJSON();
+        const graphqlRequest: GraphQLRequest = {
+          ...body,
+        };
+
+        const result = await server.executeOperation(graphqlRequest);
+
+        route.fulfill({
+          status: 200,
+          contentType: 'application/json',
+          body: JSON.stringify(result),
+        });
+      });
+
+      await use();
+    },
+    { scope: 'test', auto: true },
+  ],
+});
+
+export { expect } from '@playwright/test';
+`;
+
+const extraInfoTestcase = `
+import { expect, test } from '../base.test';
+import { addLandTypes, removeLandTypes } from '../store/catalogLandTypes/slice';
+
+test('View Catalog Land types', async ({ page, store }) => {
+  await page.goto('http://localhost:3000');
+
+  await page.locator('.ant-menu-item', { hasText: 'Catalog' }).click();
+  await page.locator('.ant-collapse-item', { hasText: 'Land types' }).click();
+
+  await expect(page.locator('.ant-tag')).toHaveCount(3);
+  await expect(page.locator('.ant-tag').nth(0)).toHaveText('weiland');
+  await expect(page.locator('.ant-tag').nth(1)).toHaveText('steppe');
+  await expect(page.locator('.ant-tag').nth(2)).toHaveText('woestijn');
 });
 `;
 
