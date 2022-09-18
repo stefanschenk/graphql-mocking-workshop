@@ -1,6 +1,6 @@
-import { CloseCircleFilled, LoadingOutlined } from '@ant-design/icons';
+import { CloseCircleFilled, LoadingOutlined, RetweetOutlined } from '@ant-design/icons';
 import { useQuery } from '@apollo/client';
-import { Collapse, CollapsePanelProps, List, Space, Spin, Tag, Typography } from 'antd';
+import { Button, Collapse, CollapsePanelProps, Divider, List, Space, Spin, Tag, Typography } from 'antd';
 import React from 'react';
 import { GqlCatalogLandTypesQuery } from '../../graphql-schema.generated';
 import { queries } from './gql-operations';
@@ -11,7 +11,7 @@ const { Text } = Typography;
 const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
 
 const PanelLandType: React.FC<CollapsePanelProps> = props => {
-  const { loading, error, data } = useQuery<GqlCatalogLandTypesQuery>(queries.catalogLandTypes, {
+  const { loading, error, data, refetch } = useQuery<GqlCatalogLandTypesQuery>(queries.catalogLandTypes, {
     fetchPolicy: 'no-cache',
     notifyOnNetworkStatusChange: true,
   });
@@ -35,6 +35,10 @@ const PanelLandType: React.FC<CollapsePanelProps> = props => {
 
   return (
     <Panel {...props} extra={extra()}>
+      <Button onClick={() => refetch()} size="small" type="primary" icon={<RetweetOutlined />} loading={loading}>
+        refresh
+      </Button>
+      <Divider plain />
       <List
         grid={{ gutter: 2 }}
         dataSource={data?.catalogLandTypes.data}

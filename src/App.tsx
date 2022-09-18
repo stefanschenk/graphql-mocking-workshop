@@ -41,7 +41,7 @@ const items: MenuItem[] = [
   ]),
   getItem(<Link to="/catalog">Catalog</Link>, 'catalog', <BookOutlined />),
   getItem(
-    <a href="http://localhost:4000/graphql/data" target="_blank" rel="noopener noreferrer">
+    <a href="https://klankentapper.ssk-hosting.nl/graphql/data" target="_blank" rel="noopener noreferrer">
       GraphQL Playground
     </a>,
     'playground',

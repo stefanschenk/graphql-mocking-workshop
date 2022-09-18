@@ -3,6 +3,9 @@ import React from 'react';
 import useLocalStorage from '../hooks/useLocalStorage';
 import PanelAssignment01 from './assignments/PanelAssignment-01';
 import PanelAssignment02 from './assignments/PanelAssignment-02';
+import PanelAssignment03 from './assignments/PanelAssignment-03';
+import PanelAssignment04 from './assignments/PanelAssignment-04';
+import PanelAssignment05 from './assignments/PanelAssignment-05';
 import diagram from './simple-diagram.svg';
 
 const { Content } = Layout;
@@ -13,10 +16,10 @@ const Workshop: React.FC = () => {
   const [finished, setFinished] = useLocalStorage('workshop:intro', false);
   const [activeKey, setActiveKey] = useLocalStorage<string | string[]>('workshop:active', 'intro');
 
-  const onClick = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
+  const onClick = () => {
     // e.stopPropagation();
     setFinished(true);
-    setActiveKey('assignment_01');
+    setActiveKey('assignment:01');
   };
 
   const onPanelChange = (key: string | string[]) => {
@@ -49,7 +52,11 @@ const Workshop: React.FC = () => {
               Op de volgende pagina's kan je informatie vinden over onderdelen die we gebruiken tijdens deze workshop
               <ul>
                 <li>
-                  <a href="src/workshop/Workshop" target="_blank" rel="noopener noreferrer">
+                  <a
+                    href="https://www.apollographql.com/docs/apollo-server/testing/mocking"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
                     Apollo GraphQL Mocking
                   </a>
                 </li>
@@ -63,7 +70,7 @@ const Workshop: React.FC = () => {
                   </a>
                 </li>
                 <li>
-                  <a href="src/workshop/Workshop" target="_blank" rel="noopener noreferrer">
+                  <a href="https://knexjs.org/guide/" target="_blank" rel="noopener noreferrer">
                     KnexJS docs
                   </a>{' '}
                   (query builder for SQLite)
@@ -111,16 +118,46 @@ const Workshop: React.FC = () => {
                 Afbeeldingen die getoond worden, worden <Text underline>niet</Text> gequeried via GraphQL, maar worden
                 direct opgehaald bij een scryfall CDN.
                 <Divider plain />
+                Open de developer tools en ga naar de <Text strong>Network</Text> tab en klik vervolgens links een
+                aantal van de menu items aan. Bekijk de requests die gedaan worden naar het <Text code>data</Text>{' '}
+                endpoint. In de <Text strong>Payload</Text> tab kan je goed zien welke graphql query wordt opgevraagd en
+                in de <Text strong>Preview</Text> of <Text strong>Response</Text> tab zie je response die van de GraphQL
+                server terug komt.
+                <Divider plain />
                 Verder op deze pagina vind je alle opdrachten die we gaan doen, met extra benodigde instructies.
               </Paragraph>
               <Image src={diagram} width="600px" preview={false} />
             </Space>
+            <Divider plain />
             <Button onClick={onClick} size="small" shape="round" type="primary">
               Next
             </Button>
           </Panel>
-          <PanelAssignment01 key="assignment_01" header="Opdracht 1 - Maak een Apollo GraphQL server aan" />
-          <PanelAssignment02 key="assignment_02" header="Opdracht 2 - " />
+          <PanelAssignment01
+            key="assignment:01"
+            header="Opdracht 1 - Maak een Apollo GraphQL server aan"
+            setActiveKey={setActiveKey}
+          />
+          <PanelAssignment02
+            key="assignment:02"
+            header="Opdracht 2 - Mock response aanpassen"
+            setActiveKey={setActiveKey}
+          />
+          <PanelAssignment03
+            key="assignment:03"
+            header="Opdracht 3 - Gebruik maken van het Graphql schema van de server"
+            setActiveKey={setActiveKey}
+          />
+          <PanelAssignment04
+            key="assignment:04"
+            header="Opdracht 4 - Manipuleren van testdata vanuit de test, afvangen van GraphQL requests in je testcase"
+            setActiveKey={setActiveKey}
+          />
+          <PanelAssignment05
+            key="assignment:05"
+            header="Opdracht 5 - Manipuleren van testdata vanuit de test, state management"
+            setActiveKey={setActiveKey}
+          />
         </Collapse>
       </div>
     </Content>

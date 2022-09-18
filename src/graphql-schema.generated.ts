@@ -112,7 +112,7 @@ export type GqlCards = GqlList & {
 export type GqlCatalogType = {
   data: Array<Scalars['String']>;
   object: Scalars['String'];
-  total_values: Scalars['String'];
+  total_values: Scalars['Int'];
   uri: Scalars['String'];
 };
 
@@ -332,12 +332,12 @@ export type GqlCardSearchQuery = { cardSearch: { has_more: boolean, data: Array<
 export type GqlCatalogArtistNamesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GqlCatalogArtistNamesQuery = { catalogArtistNames: { total_values: string, data: Array<string> } };
+export type GqlCatalogArtistNamesQuery = { catalogArtistNames: { total_values: number, data: Array<string> } };
 
 export type GqlCatalogLandTypesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GqlCatalogLandTypesQuery = { catalogLandTypes: { object: string, uri: string, total_values: string, data: Array<string> } };
+export type GqlCatalogLandTypesQuery = { catalogLandTypes: { object: string, uri: string, total_values: number, data: Array<string> } };
 
 export type GqlSetByCodeQueryVariables = Exact<{
   code: Scalars['String'];
