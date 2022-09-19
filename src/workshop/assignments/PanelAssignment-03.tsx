@@ -210,7 +210,6 @@ const solution = `
  */
 import { buildClientSchema } from 'graphql';
 import { ApolloServer } from 'apollo-server';
-import { ApolloServerPluginLandingPageLocalDefault } from 'apollo-server-core';
 
 const introspectionResult = require('../graphql.schema.json');
 
@@ -230,7 +229,6 @@ const server = new ApolloServer({
   schema,
   mocks: resolvers,
   mockEntireSchema: false,
-  plugins: [ApolloServerPluginLandingPageLocalDefault({ embed: true })],
 });
 
 server.listen().then(({ url }) => {

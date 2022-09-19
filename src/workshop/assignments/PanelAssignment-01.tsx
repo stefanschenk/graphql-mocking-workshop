@@ -55,6 +55,9 @@ const PanelAssignment01: React.FC<
                 </Paragraph>
                 <Paragraph>
                   We maken voor deze opdracht gebruik van het standaard mock gedrag van Apollo server.
+                  <br />
+                  Pas <Text code>test/apollo-server.ts</Text> aan en volg het voorbeeld, zoals beschreven in de
+                  documentatie.
                 </Paragraph>
                 <Paragraph>
                   Deze opdracht is afgerond als je succesvol het script{' '}
@@ -142,7 +145,6 @@ const solution = `
  * This file will be used in all assignments - it will contain all the code for your mock Apollo server
  */
 import { ApolloServer, gql } from 'apollo-server';
-import { ApolloServerPluginLandingPageLocalDefault } from 'apollo-server-core';
 
 const typeDefs = gql\`
   type Query {
@@ -153,7 +155,6 @@ const typeDefs = gql\`
 const server = new ApolloServer({
   typeDefs,
   mocks: true,
-  plugins: [ApolloServerPluginLandingPageLocalDefault({ embed: true })],
 });
 
 server.listen().then(({ url }) => {

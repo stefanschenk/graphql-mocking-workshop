@@ -185,7 +185,6 @@ const solution = `
  * This file will be used in all assignments - it will contain all the code for your mock Apollo server
  */
 import { ApolloServer, gql } from 'apollo-server';
-import { ApolloServerPluginLandingPageLocalDefault } from 'apollo-server-core';
 
 const typeDefs = gql\`
   type CatalogType {
@@ -216,7 +215,6 @@ const server = new ApolloServer({
   resolvers,
   mocks: true,
   mockEntireSchema: false,
-  plugins: [ApolloServerPluginLandingPageLocalDefault({ embed: true })],
 });
 
 server.listen().then(({ url }) => {
