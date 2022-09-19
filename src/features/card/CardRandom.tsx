@@ -21,7 +21,7 @@ import { GqlCardRandomQuery } from '../../graphql-schema.generated';
 import { queries } from './gql-operations';
 
 const { Content } = Layout;
-const { Text } = Typography;
+const { Paragraph, Text } = Typography;
 
 const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
 
@@ -30,7 +30,7 @@ const CardRandom: React.FC = () => {
     notifyOnNetworkStatusChange: true,
   });
 
-  const imageSrc = data?.cardRandom.image_uris.normal ?? 'empty';
+  const imageSrc = data?.cardRandom.image_uris?.normal ?? 'empty';
   const symbols = data?.cardRandom.mana_cost?.match(/\w/g) ?? [];
 
   return (
@@ -80,11 +80,18 @@ const CardRandom: React.FC = () => {
                 >
                   <Text>{data.cardRandom.type_line}</Text>
                   <Divider plain />
-                  <Text>{data.cardRandom.oracle_text}</Text>
-                  <br />
-                  <Text italic>"{data.cardRandom.flavor_text}"</Text>
-                  <Text strong>{`${data.cardRandom.power} / ${data.cardRandom.toughness}`}</Text>
-                  {/*<Text strong>{`Illustrated by: ${data.cardRandom.illustration_id}`}</Text>*/}
+                  <Paragraph>{data.cardRandom.oracle_text}</Paragraph>
+                  {data.cardRandom.flavor_text && (
+                    <Paragraph>
+                      <Text italic>{`"${data.cardRandom.flavor_text}"`}</Text>
+                    </Paragraph>
+                  )}
+                  {(data.cardRandom.power || data.cardRandom.toughness) && (
+                    <Paragraph>
+                      <Text strong>{`${data.cardRandom.power} / ${data.cardRandom.toughness}`}</Text>
+                    </Paragraph>
+                  )}
+                  <Paragraph>{`Illustrated by: ${data.cardRandom.artist}`}</Paragraph>
                   <Divider plain />
                   <Tag color="geekblue">{data.cardRandom.rarity}</Tag>
                   <Divider orientation="left" plain>
