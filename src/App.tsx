@@ -1,17 +1,19 @@
 import {
   BookOutlined,
+  CloseCircleOutlined,
   EyeOutlined,
   HomeOutlined,
   LinkOutlined,
   RetweetOutlined,
+  SearchOutlined,
   UnorderedListOutlined,
 } from '@ant-design/icons';
-import type { MenuProps } from 'antd';
-import { Layout, Menu } from 'antd';
-import React, { useState } from 'react';
-import { Link, Route, Routes, useLocation } from 'react-router-dom';
+import { Input, Layout, Menu, MenuProps, Space } from 'antd';
+import React, { KeyboardEvent, useState } from 'react';
+import { Link, Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 import CardRandom from './features/card/CardRandom';
 import Catalog from './features/catalog/Catalog';
+import Search from './features/search/Search';
 import Set from './features/set/Set';
 import SetList from './features/set/SetList';
 import Symbology from './features/symbology/Symbology';
@@ -52,6 +54,7 @@ const items: MenuItem[] = [
 const App: React.FC = () => {
   const [collapsed, setCollapsed] = useState(false);
   const { pathname } = useLocation();
+  let navigate = useNavigate();
 
   const segments = pathname
     .split('/')
@@ -78,7 +81,32 @@ const App: React.FC = () => {
           />
         </Sider>
         <Layout className="site-layout" style={{ marginLeft: 200 }}>
-          <Header className="site-layout-background" style={{ padding: 0 }} />
+          <Header className="site-layout-background" style={{ backgroundColor: '#002140', color: '#fff', padding: 0 }}>
+            <Input
+              style={{ color: 'white', width: '50%', minWidth: '200px' }}
+              allowClear={{ clearIcon: <CloseCircleOutlined style={{ color: 'white', fontSize: '18px' }} /> }}
+              bordered={false}
+              name="search"
+              placeholder="Search for Magic cards..."
+              prefix={<SearchOutlined />}
+              size="large"
+              onPressEnter={(e: KeyboardEvent<HTMLInputElement>) =>
+                navigate({ pathname: 'search', search: `q=${encodeURIComponent(e.currentTarget.value)}` })
+              }
+            />
+            <Space
+              style={{
+                borderLeft: '1px white solid',
+                height: '28px',
+                marginLeft: '10px',
+                paddingLeft: '10px',
+              }}
+            >
+              <a href="https://scryfall.com/docs/syntax" target="_blank" rel="noopener noreferrer">
+                Scryfall Search Reference
+              </a>
+            </Space>
+          </Header>
           <Routes>
             <Route path="/" element={<Workshop />} />
             <Route path="/random" element={<CardRandom />} />
@@ -87,6 +115,7 @@ const App: React.FC = () => {
             <Route path="/card-symbols/parse-mana" element={<SymbologyParseMana />} />
             <Route path="/sets/list" element={<SetList />} />
             <Route path="/sets/list/:setCode" element={<Set />} />
+            <Route path="/search" element={<Search />} />
           </Routes>
           <Footer style={{ textAlign: 'center' }}>Stefan Schenk - deTesters :: Workshop testen met GraphQL</Footer>
         </Layout>

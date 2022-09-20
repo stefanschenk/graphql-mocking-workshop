@@ -214,72 +214,6 @@ export type GqlList = {
   warnings: Maybe<Array<Maybe<Scalars['String']>>>;
 };
 
-export type GqlOldCard = {
-  artist: Scalars['String'];
-  artist_ids: Array<Scalars['String']>;
-  booster: Scalars['Boolean'];
-  border_color: Scalars['String'];
-  card_back_id: Maybe<Scalars['String']>;
-  cardmarket_id: Maybe<Scalars['Int']>;
-  cmc: Scalars['Int'];
-  collector_number: Scalars['String'];
-  color_identity: Array<Maybe<GqlColor>>;
-  colors: Array<Maybe<GqlColor>>;
-  digital: Scalars['Boolean'];
-  edhrec_rank: Maybe<Scalars['Int']>;
-  finishes: Array<Scalars['String']>;
-  flavor_text: Maybe<Scalars['String']>;
-  foil: Scalars['Boolean'];
-  frame: Scalars['String'];
-  frame_effects: Maybe<Array<Maybe<Scalars['String']>>>;
-  full_art: Scalars['Boolean'];
-  games: Array<Scalars['String']>;
-  highres_image: Scalars['Boolean'];
-  id: Scalars['String'];
-  illustration_id: Scalars['String'];
-  image_status: Scalars['String'];
-  image_uris: GqlImageUris;
-  keywords: Array<Maybe<Scalars['String']>>;
-  lang: Scalars['String'];
-  layout: Scalars['String'];
-  legalities: GqlLegalities;
-  mana_cost: Maybe<Scalars['String']>;
-  multiverse_ids: Array<Maybe<Scalars['String']>>;
-  name: Scalars['String'];
-  nonfoil: Scalars['Boolean'];
-  object: Scalars['String'];
-  oracle_id: Scalars['String'];
-  oracle_text: Maybe<Scalars['String']>;
-  oversized: Scalars['Boolean'];
-  power: Maybe<Scalars['String']>;
-  preview: Maybe<GqlPreview>;
-  prices: GqlPrices;
-  prints_search_uri: Scalars['String'];
-  promo: Scalars['Boolean'];
-  purchase_uris: Maybe<GqlPurchaseUris>;
-  rarity: GqlRarity;
-  related_uris: Maybe<GqlRelatedUris>;
-  released_at: Scalars['String'];
-  reprint: Scalars['Boolean'];
-  reserved: Scalars['Boolean'];
-  rulings_uri: Scalars['String'];
-  scryfall_set_uri: Scalars['String'];
-  scryfall_uri: Scalars['String'];
-  set: Scalars['String'];
-  set_id: Scalars['String'];
-  set_name: Scalars['String'];
-  set_search_uri: Scalars['String'];
-  set_type: Scalars['String'];
-  set_uri: Scalars['String'];
-  story_spotlight: Scalars['Boolean'];
-  tcgplayer_id: Maybe<Scalars['Int']>;
-  textless: Scalars['Boolean'];
-  toughness: Maybe<Scalars['String']>;
-  type_line: Scalars['String'];
-  uri: Scalars['String'];
-  variation: Scalars['Boolean'];
-};
-
 export type GqlPreview = {
   previewed_at: Maybe<Scalars['String']>;
   source: Scalars['String'];
@@ -447,7 +381,7 @@ export type GqlCardSearchQueryVariables = Exact<{
 }>;
 
 
-export type GqlCardSearchQuery = { cardSearch: { has_more: boolean, data: Array<{ name: string, mana_cost: string | null, type_line: string, oracle_text: string | null, flavor_text: string | null, power: string | null, toughness: string | null, image_uris: { normal: string | null } | null }> } };
+export type GqlCardSearchQuery = { cardSearch: { has_more: boolean, total_cards: number | null, next_page: string | null, data: Array<{ name: string, mana_cost: string | null, type_line: string, oracle_text: string | null, flavor_text: string | null, power: string | null, toughness: string | null, rarity: GqlRarity, artist: string | null, image_uris: { normal: string | null } | null, legalities: { standard: GqlLegality, alchemy: GqlLegality, pioneer: GqlLegality, explorer: GqlLegality, modern: GqlLegality, brawl: GqlLegality, legacy: GqlLegality, historic: GqlLegality, vintage: GqlLegality, pauper: GqlLegality, commander: GqlLegality, penny: GqlLegality } }> } };
 
 export type GqlCatalogArtistNamesQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -609,8 +543,26 @@ export const CardSearchDocument = gql`
       image_uris {
         normal
       }
+      legalities {
+        standard
+        alchemy
+        pioneer
+        explorer
+        modern
+        brawl
+        legacy
+        historic
+        vintage
+        pauper
+        commander
+        penny
+      }
+      rarity
+      artist
     }
     has_more
+    total_cards
+    next_page
   }
 }
     `;

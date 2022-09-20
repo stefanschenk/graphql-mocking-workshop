@@ -11,7 +11,25 @@ query CardSearch($q: String!, $unique: String) {
       image_uris {
         normal
       }
+      legalities {
+        standard
+        alchemy
+        pioneer
+        explorer
+        modern
+        brawl
+        legacy
+        historic
+        vintage
+        pauper
+        commander
+        penny
+      }
+      rarity
+      artist
     }
     has_more
+    total_cards
+    next_page
   }
 }

@@ -1,4 +1,3 @@
-import { GraphQLRequest } from '@apollo/client';
 import { Button, Checkbox, Collapse, CollapsePanelProps, Divider, Tabs, Typography } from 'antd';
 import { CheckboxChangeEvent } from 'antd/es/checkbox';
 import React from 'react';

@@ -24,3 +24,7 @@ code {
 .site-layout .site-layout-background {
   background: #fff;
 }
+
+.ant-input[name="search"] {
+  color: white !important;
+}

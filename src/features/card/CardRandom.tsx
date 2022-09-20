@@ -105,7 +105,9 @@ const CardRandom: React.FC = () => {
                     renderItem={([key, value]) => (
                       <>
                         <Tag
-                          color={value === 'LEGAL' ? '#87d068' : undefined}
+                          color={
+                            value === 'LEGAL' ? '#87d068' : value === 'BANNED' ? 'rgba(167,31,42,0.58)' : undefined
+                          }
                           title={key}
                           style={{ fontSize: '10px', fontWeight: '400', textAlign: 'center', width: '70px' }}
                         >
