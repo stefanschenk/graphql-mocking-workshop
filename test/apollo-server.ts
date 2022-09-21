@@ -1,3 +1,36 @@
 /**
  * This file will be used in all assignments - it will contain all the code for your mock Apollo server
  */
+import { ApolloServer } from 'apollo-server';
+import { buildClientSchema } from 'graphql';
+import { DeepPartial } from 'ts-essentials';
+import { GqlCards, GqlCardSearchQueryVariables, GqlCatalogType } from '../src/graphql-schema.generated';
+import { getCatalogLandTypes } from './store/catalogLandTypes/selectors';
+import { getSearchResult } from './store/search/selectors';
+import { TestDataStore } from './store/store';
+
+const introspectionResult = require('../graphql.schema.json');
+
+const schema = buildClientSchema(introspectionResult);
+
+/**
+ * Resolver functions are passed four arguments: parent, args, context, and info (in that order).
+ * @param store
+ */
+const resolvers = (store: TestDataStore) => ({
+  Query: () => ({
+    catalogLandTypes: (): DeepPartial<GqlCatalogType> => {
+      return getCatalogLandTypes(store.getState());
+    },
+    cardSearch: (parent: unknown, args: GqlCardSearchQueryVariables): DeepPartial<GqlCards> => {
+      return getSearchResult(store.getState()).filter(result => result.query === args.q)[0].result;
+    },
+  }),
+});
+
+export const apolloServer = (store: TestDataStore) =>
+  new ApolloServer({
+    schema,
+    mocks: resolvers(store),
+    mockEntireSchema: false,
+  });

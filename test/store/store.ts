@@ -1,6 +1,7 @@
 import { AnyAction, configureStore, Dispatch, EnhancedStore, Middleware } from '@reduxjs/toolkit';
 import { ThunkMiddleware } from 'redux-thunk';
 import { catalogLandTypesReducer } from './catalogLandTypes/slice';
+import { searchResultReducer } from './search/slice';
 
 /**
  * The Redux store, which is created by using configureStore
@@ -10,6 +11,7 @@ import { catalogLandTypesReducer } from './catalogLandTypes/slice';
 export const store = configureStore({
   reducer: {
     catalogLandTypes: catalogLandTypesReducer,
+    searchResult: searchResultReducer,
   },
 });
 
