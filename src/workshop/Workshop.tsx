@@ -70,12 +70,6 @@ const Workshop: React.FC = () => {
                   </a>
                 </li>
                 <li>
-                  <a href="https://knexjs.org/guide/" target="_blank" rel="noopener noreferrer">
-                    KnexJS docs
-                  </a>{' '}
-                  (query builder for SQLite)
-                </li>
-                <li>
                   <a href="https://playwright.dev/docs/intro" target="_blank" rel="noopener noreferrer">
                     Playwright docs
                   </a>
