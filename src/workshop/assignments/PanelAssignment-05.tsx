@@ -1,3 +1,4 @@
+import { CheckOutlined, CopyOutlined } from '@ant-design/icons';
 import { Button, Checkbox, Collapse, CollapsePanelProps, Divider, Tabs, Typography } from 'antd';
 import { CheckboxChangeEvent } from 'antd/es/checkbox';
 import React from 'react';
@@ -149,7 +150,25 @@ const PanelAssignment05: React.FC<
             children: (
               <>
                 <Paragraph>
-                  <Text strong>base.test.ts (extend Playwright test</Text>
+                  <Divider orientation="left">
+                    <Text
+                      style={{ fontSize: '0.9rem' }}
+                      copyable={{
+                        text: extraInfoTestExtend,
+                        icon: [
+                          <Button icon={<CopyOutlined />} size="small" shape="round" type="primary">
+                            copy
+                          </Button>,
+                          <Button icon={<CheckOutlined />} size="small" shape="round" type="primary">
+                            copied
+                          </Button>,
+                        ],
+                      }}
+                      strong
+                    >
+                      base.test.ts (extend Playwright test)&nbsp;&nbsp;
+                    </Text>
+                  </Divider>
                   <SyntaxHighlighter
                     customStyle={{ border: '1px lightgrey solid', fontSize: '12px' }}
                     lineNumberStyle={{ color: 'black', opacity: '0.4' }}
@@ -159,7 +178,25 @@ const PanelAssignment05: React.FC<
                   >
                     {extraInfoTestExtend.trim()}
                   </SyntaxHighlighter>
-                  <Text strong>view-catalog-land-types.spec.ts</Text>
+                  <Divider orientation="left">
+                    <Text
+                      style={{ fontSize: '0.9rem' }}
+                      copyable={{
+                        text: extraInfoTestcase,
+                        icon: [
+                          <Button icon={<CopyOutlined />} size="small" shape="round" type="primary">
+                            copy
+                          </Button>,
+                          <Button icon={<CheckOutlined />} size="small" shape="round" type="primary">
+                            copied
+                          </Button>,
+                        ],
+                      }}
+                      strong
+                    >
+                      view-catalog-land-types.spec.ts&nbsp;&nbsp;
+                    </Text>
+                  </Divider>
                   <SyntaxHighlighter
                     customStyle={{ border: '1px lightgrey solid', fontSize: '12px' }}
                     lineNumberStyle={{ color: 'black', opacity: '0.4' }}
@@ -179,7 +216,25 @@ const PanelAssignment05: React.FC<
             disabled: !solutionEnabled,
             children: (
               <>
-                <Text strong>apollo-server.ts</Text>
+                <Divider orientation="left">
+                  <Text
+                    style={{ fontSize: '0.9rem' }}
+                    copyable={{
+                      text: solutionApolloServer,
+                      icon: [
+                        <Button icon={<CopyOutlined />} size="small" shape="round" type="primary">
+                          copy
+                        </Button>,
+                        <Button icon={<CheckOutlined />} size="small" shape="round" type="primary">
+                          copied
+                        </Button>,
+                      ],
+                    }}
+                    strong
+                  >
+                    apollo-server.ts&nbsp;&nbsp;
+                  </Text>
+                </Divider>
                 <SyntaxHighlighter
                   customStyle={{ border: '1px lightgrey solid', fontSize: '12px' }}
                   lineNumberStyle={{ color: 'black', opacity: '0.4' }}
@@ -189,7 +244,25 @@ const PanelAssignment05: React.FC<
                 >
                   {solutionApolloServer.trim()}
                 </SyntaxHighlighter>
-                <Text strong>view-catalog-land-types.spec.ts</Text>
+                <Divider orientation="left">
+                  <Text
+                    style={{ fontSize: '0.9rem' }}
+                    copyable={{
+                      text: solutionTestCase,
+                      icon: [
+                        <Button icon={<CopyOutlined />} size="small" shape="round" type="primary">
+                          copy
+                        </Button>,
+                        <Button icon={<CheckOutlined />} size="small" shape="round" type="primary">
+                          copied
+                        </Button>,
+                      ],
+                    }}
+                    strong
+                  >
+                    view-catalog-land-types.spec.ts&nbsp;&nbsp;
+                  </Text>
+                </Divider>
                 <SyntaxHighlighter
                   customStyle={{ border: '1px lightgrey solid', fontSize: '12px' }}
                   lineNumberStyle={{ color: 'black', opacity: '0.4' }}

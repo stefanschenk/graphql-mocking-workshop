@@ -1,5 +1,5 @@
 import { Button, Checkbox, Collapse, CollapsePanelProps, Divider, Space, Tabs, Typography } from 'antd';
-import { MenuOutlined } from '@ant-design/icons';
+import { CheckOutlined, CopyOutlined, MenuOutlined } from '@ant-design/icons';
 import { CheckboxChangeEvent } from 'antd/es/checkbox';
 import React from 'react';
 import useLocalStorage from '../../hooks/useLocalStorage';
@@ -136,6 +136,25 @@ const PanelAssignment02: React.FC<
                   <br />
                   Alle velden die niet in jouw resolver zitten, worden automatisch toegevoegd met een standaard waarde.
                 </Paragraph>
+                <Divider orientation="left">
+                  <Text
+                    style={{ fontSize: '0.9rem' }}
+                    copyable={{
+                      text: solution,
+                      icon: [
+                        <Button icon={<CopyOutlined />} size="small" shape="round" type="primary">
+                          copy
+                        </Button>,
+                        <Button icon={<CheckOutlined />} size="small" shape="round" type="primary">
+                          copied
+                        </Button>,
+                      ],
+                    }}
+                    strong
+                  >
+                    apollo-server.ts&nbsp;&nbsp;
+                  </Text>
+                </Divider>
                 <SyntaxHighlighter
                   customStyle={{ border: '1px lightgrey solid', fontSize: '12px' }}
                   lineNumberStyle={{ color: 'black', opacity: '0.4' }}

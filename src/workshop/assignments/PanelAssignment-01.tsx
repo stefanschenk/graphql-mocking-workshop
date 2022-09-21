@@ -1,4 +1,5 @@
 import { Button, Checkbox, Collapse, CollapsePanelProps, Divider, Tabs, Typography } from 'antd';
+import { CheckOutlined, CopyOutlined } from '@ant-design/icons';
 import { CheckboxChangeEvent } from 'antd/es/checkbox';
 import React from 'react';
 import useLocalStorage from '../../hooks/useLocalStorage';
@@ -105,6 +106,25 @@ const PanelAssignment01: React.FC<
             disabled: !solutionEnabled,
             children: (
               <>
+                <Divider orientation="left">
+                  <Text
+                    style={{ fontSize: '0.9rem' }}
+                    copyable={{
+                      text: solution,
+                      icon: [
+                        <Button icon={<CopyOutlined />} size="small" shape="round" type="primary">
+                          copy
+                        </Button>,
+                        <Button icon={<CheckOutlined />} size="small" shape="round" type="primary">
+                          copied
+                        </Button>,
+                      ],
+                    }}
+                    strong
+                  >
+                    apollo-server.ts&nbsp;&nbsp;
+                  </Text>
+                </Divider>
                 <SyntaxHighlighter
                   customStyle={{ border: '1px lightgrey solid', fontSize: '12px' }}
                   lineNumberStyle={{ color: 'black', opacity: '0.4' }}
@@ -114,6 +134,7 @@ const PanelAssignment01: React.FC<
                 >
                   {solution.trim()}
                 </SyntaxHighlighter>
+
                 <Paragraph>
                   Open <Text code>src/index.tsx</Text> om te zien welke environment variabele gebruikt wordt voor de
                   graphqlUri. Of maak een <Text code>.env</Text> bestand aan, op basis van{' '}
