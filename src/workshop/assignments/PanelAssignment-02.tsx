@@ -209,7 +209,7 @@ const typeDefs = gql\`
   type CatalogType {
     object: String!
     uri: String!
-    total_values: String!
+    total_values: Int!
     data: [String!]!
   }
 
