@@ -27,6 +27,7 @@ query CardSearch($q: String!, $unique: String) {
       }
       rarity
       artist
+      set
     }
     has_more
     total_cards

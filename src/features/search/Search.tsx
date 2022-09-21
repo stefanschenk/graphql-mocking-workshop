@@ -14,6 +14,7 @@ const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
 const Search: React.FC = () => {
   let navigate = useNavigate();
   const [searchParams] = useSearchParams();
+  console.log(searchParams.get('q'));
   const { loading, error, data } = useQuery<GqlCardSearchQuery, GqlCardSearchQueryVariables>(queries.cardSearch, {
     variables: { q: searchParams.get('q') ?? '', unique: searchParams.get('unique') ?? undefined },
   });
@@ -131,7 +132,12 @@ const Search: React.FC = () => {
 
                 return (
                   <List.Item>
-                    <Card size="small" cover={<img alt={card.name} src={imageSrc} loading="lazy" />}>
+                    <Card
+                      style={{ cursor: 'pointer' }}
+                      size="small"
+                      cover={<img alt={card.name} src={imageSrc} loading="lazy" />}
+                      onClick={() => navigate({ pathname: '/search', search: `q=!"${card.name}"+e:${card.set}` })}
+                    >
                       <Space align="baseline">
                         <Text strong style={{ fontSize: '1rem', verticalAlign: 'middle' }}>
                           {card.name}

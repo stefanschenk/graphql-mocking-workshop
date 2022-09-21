@@ -275,7 +275,8 @@ export enum GqlRarity {
   MYTHIC = 'MYTHIC',
   RARE = 'RARE',
   UNCOMMON = 'UNCOMMON',
-  BONUS = 'bonus'
+  BONUS = 'bonus',
+  SPECIAL = 'special'
 }
 
 export type GqlRelatedCard = {
@@ -382,7 +383,7 @@ export type GqlCardSearchQueryVariables = Exact<{
 }>;
 
 
-export type GqlCardSearchQuery = { cardSearch: { has_more: boolean, total_cards: number | null, next_page: string | null, data: Array<{ name: string, mana_cost: string | null, type_line: string, oracle_text: string | null, flavor_text: string | null, power: string | null, toughness: string | null, rarity: GqlRarity, artist: string | null, image_uris: { normal: string | null } | null, legalities: { standard: GqlLegality, alchemy: GqlLegality, pioneer: GqlLegality, explorer: GqlLegality, modern: GqlLegality, brawl: GqlLegality, legacy: GqlLegality, historic: GqlLegality, vintage: GqlLegality, pauper: GqlLegality, commander: GqlLegality, penny: GqlLegality } }> } };
+export type GqlCardSearchQuery = { cardSearch: { has_more: boolean, total_cards: number | null, next_page: string | null, data: Array<{ name: string, mana_cost: string | null, type_line: string, oracle_text: string | null, flavor_text: string | null, power: string | null, toughness: string | null, rarity: GqlRarity, artist: string | null, set: string, image_uris: { normal: string | null } | null, legalities: { standard: GqlLegality, alchemy: GqlLegality, pioneer: GqlLegality, explorer: GqlLegality, modern: GqlLegality, brawl: GqlLegality, legacy: GqlLegality, historic: GqlLegality, vintage: GqlLegality, pauper: GqlLegality, commander: GqlLegality, penny: GqlLegality } }> } };
 
 export type GqlCatalogArtistNamesQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -560,6 +561,7 @@ export const CardSearchDocument = gql`
       }
       rarity
       artist
+      set
     }
     has_more
     total_cards
