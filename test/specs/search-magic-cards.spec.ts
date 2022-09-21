@@ -1,5 +1,5 @@
 import { test } from '../base.test';
-import { addSearchResult } from '../store/search/slice';
+import { addSearchResult } from '../store/set/slice';
 
 test('Search Magic cards', async ({ page, store }) => {
   await store.dispatch(addSearchResult({ query: 'tutor', result: [{ name: 'An Excellent Tutor' }] }));

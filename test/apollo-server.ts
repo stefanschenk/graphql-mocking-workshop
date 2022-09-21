@@ -4,9 +4,10 @@
 import { ApolloServer } from 'apollo-server';
 import { buildClientSchema } from 'graphql';
 import { DeepPartial } from 'ts-essentials';
-import { GqlCards, GqlCardSearchQueryVariables, GqlCatalogType } from '../src/graphql-schema.generated';
+import { GqlCards, GqlCardSearchQueryVariables, GqlCatalogType, GqlSets } from '../src/graphql-schema.generated';
 import { getCatalogLandTypes } from './store/catalogLandTypes/selectors';
 import { getSearchResult } from './store/search/selectors';
+import { getSetList } from './store/set/selectors';
 import { TestDataStore } from './store/store';
 
 const introspectionResult = require('../graphql.schema.json');
@@ -24,6 +25,9 @@ const resolvers = (store: TestDataStore) => ({
     },
     cardSearch: (parent: unknown, args: GqlCardSearchQueryVariables): DeepPartial<GqlCards> => {
       return getSearchResult(store.getState()).filter(result => result.query === args.q)[0].result;
+    },
+    sets: (): DeepPartial<GqlSets> => {
+      return getSetList(store.getState());
     },
   }),
 });
