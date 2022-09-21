@@ -71,7 +71,7 @@ const PanelAssignment02: React.FC<
                   Het standaard gedrag voor mocks is, dat deze resolvers die in het schema zitten, overschrijven.
                   <br />
                   Als je wilt dat jouw resolvers worden gebruikt in de mock response, moet je de optie
-                  <Text code>mockEntireSchema</Text> in je Apollo server op <Text code>true</Text> zetten.
+                  <Text code>mockEntireSchema</Text> in je Apollo server op <Text code>false</Text> zetten.
                 </Paragraph>
 
                 <Paragraph>
