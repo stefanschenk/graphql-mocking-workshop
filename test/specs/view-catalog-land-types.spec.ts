@@ -1,6 +1,12 @@
 import { expect, test } from '@playwright/test';
 
 test('View Catalog Land types', async ({ page }) => {
+  /**
+   * We gebruiken hier een page.route om requests naar c*.scryfall.com af te vangen
+   * Als we data mocken, zullen dit requests zijn die toch gaan falen.
+   * We gebruiken `route.abort`, omdat we niet geïnteresseerd zijn in afbeeldingen die via
+   * deze route terug zouden komen en we willen ook geen mock response teruggeven op deze requests.
+   */
   await page.route(/c\d.scryfall.com/, (route, request) => {
     route.abort('blockedbyclient');
   });
