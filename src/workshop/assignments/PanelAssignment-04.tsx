@@ -216,8 +216,10 @@ const solutionApolloServer = `
 /**
  * This file will be used in all assignments - it will contain all the code for your mock Apollo server
  */
-import { buildClientSchema } from 'graphql';
 import { ApolloServer } from 'apollo-server';
+import { buildClientSchema } from 'graphql';
+import { DeepPartial } from 'ts-essentials';
+import { GqlCatalogType } from '../src/graphql-schema.generated';
 
 const introspectionResult = require('../graphql.schema.json');
 
@@ -225,7 +227,7 @@ const schema = buildClientSchema(introspectionResult);
 
 const resolvers = {
   Query: () => ({
-    catalogLandTypes: () => {
+    catalogLandTypes: (): DeepPartial<GqlCatalogType> => {
       return {
         data: ['weiland', 'steppe', 'woestijn'],
       };

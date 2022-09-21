@@ -229,14 +229,24 @@ const solution = `
  */
 import { buildClientSchema } from 'graphql';
 import { ApolloServer } from 'apollo-server';
+import { DeepPartial } from 'ts-essentials';
+import { GqlCatalogType } from '../src/graphql-schema.generated';
 
 const introspectionResult = require('../graphql.schema.json');
 
 const schema = buildClientSchema(introspectionResult);
 
+/**
+ * Nu we het schema hebben gegenereerd, kunnen we aan de resolver functie ook een return type
+ * meegeven.
+ * Zoals bij opdracht 2 (oplossing) werd vermeld, is het niet nodig om altijd een volledig response object te maken,
+ * omdat Apollo zorgt voor standaard waardes voor alle niet gedefinieerde velden.
+ * Het type \`DeepPartial<>\` maakt alle attributen in een type optioneel, in dit geval worden dus alle attributen
+ * van GqlCatalogType optioneel gemaakt.
+ */
 const resolvers = {
   Query: () => ({
-    catalogLandTypes: () => {
+    catalogLandTypes: (): DeepPartial<GqlCatalogType> => {
       return {
         data: ['weiland', 'steppe', 'woestijn'],
       };
@@ -253,7 +263,6 @@ const server = new ApolloServer({
 server.listen().then(({ url }) => {
   console.log(\`🚀 Server ready at \${url}\`);
 });
-
 `;
 
 export default PanelAssignment03;

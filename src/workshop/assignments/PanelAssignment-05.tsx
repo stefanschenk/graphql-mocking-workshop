@@ -292,6 +292,8 @@ const solutionApolloServer = `
  */
 import { ApolloServer } from 'apollo-server';
 import { buildClientSchema } from 'graphql';
+import { DeepPartial } from 'ts-essentials';
+import { GqlCatalogType } from '../src/graphql-schema.generated';
 import { getCatalogLandTypes } from './store/catalogLandTypes/selectors';
 import { TestDataStore } from './store/store';
 
@@ -305,7 +307,7 @@ const schema = buildClientSchema(introspectionResult);
  */
 const resolvers = (store: TestDataStore) => ({
   Query: () => ({
-    catalogLandTypes: () => {
+    catalogLandTypes: (): DeepPartial<GqlCatalogType> => {
       return getCatalogLandTypes(store.getState());
     },
   }),
