@@ -23,7 +23,7 @@ const Workshop: React.FC = () => {
   };
 
   const onPanelChange = (key: string | string[]) => {
-    setActiveKey(key);
+    if (key !== 'intermission') setActiveKey(key);
   };
 
   return (
@@ -152,6 +152,11 @@ const Workshop: React.FC = () => {
             key="assignment:04"
             header="Opdracht 4 - Manipuleren van testdata vanuit de test, afvangen van GraphQL requests in je testcase"
             setActiveKey={setActiveKey}
+          />
+          <Panel
+            key="intermission"
+            header={<Text strong>Centraal - uitleg redux state obv. voorbeeld bestanden</Text>}
+            showArrow={false}
           />
           <PanelAssignment05
             key="assignment:05"
