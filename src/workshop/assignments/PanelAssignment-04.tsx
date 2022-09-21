@@ -224,13 +224,13 @@ const introspectionResult = require('../graphql.schema.json');
 const schema = buildClientSchema(introspectionResult);
 
 const resolvers = {
-  Query: {
+  Query: () => ({
     catalogLandTypes: () => {
       return {
         data: ['weiland', 'steppe', 'woestijn'],
       };
     },
-  },
+  }),
 };
 
 export const apolloServer = () =>
