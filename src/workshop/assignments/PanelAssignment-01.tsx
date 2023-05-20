@@ -28,7 +28,7 @@ const PanelAssignment01: React.FC<
       {...props}
       extra={
         <Checkbox checked={finished} disabled>
-          afgerond
+          finished
         </Checkbox>
       }
     >
@@ -36,50 +36,53 @@ const PanelAssignment01: React.FC<
         defaultActiveKey="1"
         items={[
           {
-            label: 'Opdracht',
+            label: 'Assignment',
             key: '1',
             children: (
               <>
                 <Paragraph>
-                  In deze eerste opdracht gaan we een Apollo server toevoegen die we later gaan gebruiken om gemockte
-                  responses te versturen.
+                  In this first task, we will add an Apollo server that we will later use to send mocked responses.
                   <br />
-                  Op{' '}
+                  At{' '}
                   <a
-                    href="https://www.apollographql.com/docs/apollo-server/testing/mocking/#using-default-mocks"
+                    href="https://www.apollographql.com/docs/apollo-server/v2/testing/mocking/#using-default-mocks"
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    deze pagina
-                  </a>
-                  vind je uitleg hoe je de ApolloServer constructor gebruikt.
+                    this page (v2)
+                  </a>{' '}
+                  you will find an explanation on how to use the ApolloServer constructor.
                 </Paragraph>
                 <Paragraph>
-                  We maken voor deze opdracht gebruik van het standaard mock gedrag van Apollo server.
+                  Please look at the Default mock example and the part on customizing mocks. Because for now we are not
+                  yet creating mocks utilizing an existing schema.
+                </Paragraph>
+                <Paragraph>
+                  For this task, we will utilize the default mocking behavior of Apollo server.
                   <br />
-                  Pas <Text code>test/apollo-server.ts</Text> aan en volg het voorbeeld, zoals beschreven in de
-                  documentatie.
+                  Modify <Text code>test/apollo-server.ts</Text> and follow the example as described in the
+                  documentation.
                 </Paragraph>
                 <Paragraph>
-                  Deze opdracht is afgerond als je succesvol het script{' '}
+                  This assignment is finished when you are able to successfully run the script{' '}
                   <Text code copyable>
                     npm run start:apollo
-                  </Text>{' '}
-                  kan draaien.
+                  </Text>
                 </Paragraph>
                 <Paragraph>
-                  Je Apollo server draait nu op poort <Text code>4000</Text> (standaard). <br />
-                  Herstart nu deze webapplicatie, waarbij je met een environment variabele de GraphQL URI aanpast en
-                  laat wijzen naar jouw Apollo server die lokaal draait.
+                  Your Apollo server is now running on port <Text code>4000</Text> (by default).
                   <br />
-                  Als je nu de requests bekijkt in de network tab, zal je zien dat de GraphQL queries falen, omdat deze
-                  niet bekend zijn bij je Apollo server.
+                  Now, restart this web application, modifying the GraphQL URI with an environment variable to point to
+                  your locally running Apollo server.
+                  <br />
+                  If you now check the requests in the network tab, you will notice that the GraphQL queries fail
+                  because they are not recognized by your Apollo server.
                 </Paragraph>
                 <Checkbox
                   checked={solutionEnabled}
                   onChange={(e: CheckboxChangeEvent) => setSolutionEnabled(e.target.checked)}
                 >
-                  toon de oplossing
+                  show the solution
                 </Checkbox>
                 <Divider plain />
                 <Button onClick={onClick} size="small" shape="round" type="primary">
@@ -89,7 +92,7 @@ const PanelAssignment01: React.FC<
             ),
           },
           {
-            label: 'Meer info',
+            label: 'More info',
             key: '2',
             disabled: true,
             children: (
@@ -101,7 +104,7 @@ const PanelAssignment01: React.FC<
             ),
           },
           {
-            label: 'Oplossing',
+            label: 'Solution',
             key: '3',
             disabled: !solutionEnabled,
             children: (
@@ -136,17 +139,16 @@ const PanelAssignment01: React.FC<
                 </SyntaxHighlighter>
 
                 <Paragraph>
-                  Open <Text code>src/index.tsx</Text> om te zien welke environment variabele gebruikt wordt voor de
-                  graphqlUri. Of maak een <Text code>.env</Text> bestand aan, op basis van{' '}
-                  <Text code>.env.example</Text>. Herstart de webapplicatie met <Text code>npm start</Text>.
+                  Open <Text code>src/index.tsx</Text> to see which environment variable is used for the graphqlUri.
+                  Alternatively, create a <Text code>.env</Text> file based on <Text code>.env.example</Text>.<br />
+                  Restart the web application using <Text code>npm start</Text>.
                 </Paragraph>
                 <Paragraph>
-                  De plugin die je in de oplossing ziet staan, zorgt ervoor dat je ook voor eigen mock server een
-                  Playground pagina hebt. Ga naar{' '}
+                  The code in the solution provides a Playground page for your own mock server as well. Go to{' '}
                   <a href="http://localhost:4000/" target="_blank" rel="noopener noreferrer">
                     http://localhost:4000/
                   </a>{' '}
-                  om deze te bekijken.
+                  to view this page.
                 </Paragraph>
                 <Divider plain />
                 <Button onClick={onClick} size="small" shape="round" type="primary">
