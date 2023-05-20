@@ -27,7 +27,7 @@ const PanelAssignment01: React.FC<
       {...props}
       extra={
         <Checkbox checked={finished} disabled>
-          afgerond
+          completed
         </Checkbox>
       }
     >
@@ -35,19 +35,19 @@ const PanelAssignment01: React.FC<
         defaultActiveKey="1"
         items={[
           {
-            label: 'Opdracht',
+            label: 'Assignment',
             key: '1',
             children: (
               <>
                 <Paragraph></Paragraph>
 
-                <Paragraph>Deze opdracht is afgerond als</Paragraph>
+                <Paragraph>This assignment is completed when</Paragraph>
 
                 <Checkbox
                   checked={solutionEnabled}
                   onChange={(e: CheckboxChangeEvent) => setSolutionEnabled(e.target.checked)}
                 >
-                  toon de oplossing
+                  show the solution
                 </Checkbox>
                 <Divider plain />
                 <Button onClick={onClick} size="small" shape="round" type="primary">
@@ -57,7 +57,7 @@ const PanelAssignment01: React.FC<
             ),
           },
           {
-            label: 'Meer info',
+            label: 'More info',
             key: '2',
             disabled: true,
             children: (
@@ -69,7 +69,7 @@ const PanelAssignment01: React.FC<
             ),
           },
           {
-            label: 'Oplossing',
+            label: 'Solution',
             key: '3',
             disabled: !solutionEnabled,
             children: (

@@ -44,7 +44,7 @@ const Workshop: React.FC = () => {
             key="intro"
             extra={
               <Checkbox checked={finished} disabled>
-                finished
+                completed
               </Checkbox>
             }
           >
