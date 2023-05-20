@@ -118,7 +118,7 @@ const App: React.FC = () => {
             <Route path="/search" element={<Search />} />
           </Routes>
           <Footer style={{ textAlign: 'center' }}>
-            Stefan Schenk - deTesters :: Workshop Mocking testdata with GraphQL and Redux
+            Stefan Schenk - deTesters :: Workshop create testdata mocks using GraphQL and Redux
           </Footer>
         </Layout>
       </Layout>
