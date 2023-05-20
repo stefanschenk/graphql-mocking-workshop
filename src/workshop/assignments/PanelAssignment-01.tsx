@@ -28,7 +28,7 @@ const PanelAssignment01: React.FC<
       {...props}
       extra={
         <Checkbox checked={finished} disabled>
-          finished
+          completed
         </Checkbox>
       }
     >
@@ -64,7 +64,7 @@ const PanelAssignment01: React.FC<
                   documentation.
                 </Paragraph>
                 <Paragraph>
-                  This assignment is finished when you are able to successfully run the script{' '}
+                  This assignment is completed when you are able to successfully run the script{' '}
                   <Text code copyable>
                     npm run start:apollo
                   </Text>
