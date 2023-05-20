@@ -1,10 +1,11 @@
 import { Button, Checkbox, Collapse, CollapsePanelProps, Divider, Space, Tabs, Typography } from 'antd';
-import { CheckOutlined, CopyOutlined, MenuOutlined } from '@ant-design/icons';
+import { BookOutlined, CheckOutlined, CopyOutlined } from '@ant-design/icons';
 import { CheckboxChangeEvent } from 'antd/es/checkbox';
 import React from 'react';
 import useLocalStorage from '../../hooks/useLocalStorage';
 import SyntaxHighlighter from 'react-syntax-highlighter';
 import { docco } from 'react-syntax-highlighter/dist/esm/styles/hljs';
+import { Link } from 'react-router-dom';
 
 const { Panel } = Collapse;
 const { Paragraph, Text } = Typography;
@@ -28,7 +29,7 @@ const PanelAssignment02: React.FC<
       {...props}
       extra={
         <Checkbox checked={finished} disabled>
-          afgerond
+          completed
         </Checkbox>
       }
     >
@@ -36,58 +37,60 @@ const PanelAssignment02: React.FC<
         defaultActiveKey="1"
         items={[
           {
-            label: 'Opdracht',
+            label: 'Assignment',
             key: '1',
             children: (
               <>
                 <Paragraph>
-                  Op{' '}
+                  At{' '}
                   <a
-                    href="https://www.apollographql.com/docs/apollo-server/testing/mocking#customizing-mocks"
+                    href="https://www.apollographql.com/docs/apollo-server/v2/testing/mocking#customizing-mocks"
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    deze pagina
+                    this page
                   </a>{' '}
-                  staat de documentatie van Apollo server voor het aanpassen van mocks.
+                  documentation can be found for Apollo Server on how to customize mocks
                   <br />
-                  We gaan nu <Text code>apollo-server.ts</Text> aanpassen en een query toevoegen aan de{' '}
-                  <Text code>typedefs</Text> en een resolver die ons gaat voorzien van de juiste response.
+                  We are now going to modify <Text code>apollo-server.ts</Text> and add a query to the{' '}
+                  <Text code>typedefs</Text> and also add a resolver that will provide us with the correct response.
                   <br />
-                  De query die we hiervoor gaan gebruiken is <Text strong>catalog - land types</Text>
+                  The query we will use for this is <Text strong>catalog - land types</Text>
                 </Paragraph>
                 <Paragraph>
-                  Ga naar de{' '}
+                  Please go to{' '}
                   <a href="https://klankentapper.ssk-hosting.nl/graphql/data" target="_blank" rel="noopener noreferrer">
                     GraphQL Playground
                   </a>{' '}
-                  en bekijk de query <Text code>catalogLandTypes</Text>. Je kan de query aanklikken, om te zien welke
-                  velden in de response horen te zitten.
+                  (actual server) and view the query <Text code>catalogLandTypes</Text>. You can select the query to see
+                  which fields should be included in the response.
                   <br />
-                  Voeg de query toe aan de <Text code>typedefs</Text> in <Text strong>apollo-server.ts</Text> en voeg
-                  een resolver functie toe die een object terug geeft, wat voldoet aan de query.
+                  Add the query to the <Text code>typedefs</Text> in <Text strong>apollo-server.ts</Text> and add a
+                  resolver function that returns an object that meets the query requirements.
                 </Paragraph>
                 <Paragraph>
-                  Het standaard gedrag voor mocks is, dat deze resolvers die in het schema zitten, overschrijven.
+                  The default behavior for mocks is that they override the resolvers defined in the schema.
                   <br />
-                  Als je wilt dat jouw resolvers worden gebruikt in de mock response, moet je de optie
-                  <Text code>mockEntireSchema</Text> in je Apollo server op <Text code>false</Text> zetten.
+                  If you want your resolvers to be used in the mock response, you need to set the option{' '}
+                  <Text code>mockEntireSchema</Text> to <Text code>false</Text> in your Apollo server.
                 </Paragraph>
 
                 <Paragraph>
-                  Deze opdracht is afgerond als in de app naar{' '}
-                  <Space>
-                    <MenuOutlined />
-                    <Text strong>Catalog</Text>
-                  </Space>{' '}
-                  gaat en je jouw gesimuleerde response terugziet in het panel Land types
+                  This assignment is completed when you go to{' '}
+                  <Link to="/catalog">
+                    <Space>
+                      <BookOutlined />
+                      <Text strong>Catalog</Text>
+                    </Space>
+                  </Link>{' '}
+                  in this app, and you get to see your simulated response in Land types panel
                 </Paragraph>
 
                 <Checkbox
                   checked={solutionEnabled}
                   onChange={(e: CheckboxChangeEvent) => setSolutionEnabled(e.target.checked)}
                 >
-                  toon de oplossing
+                  show the solution
                 </Checkbox>
                 <Divider plain />
                 <Button onClick={onClick} size="small" shape="round" type="primary">
@@ -97,44 +100,52 @@ const PanelAssignment02: React.FC<
             ),
           },
           {
-            label: 'Meer info',
+            label: 'More info',
             key: '2',
             children: (
               <>
                 <Paragraph>
                   <Text strong>Resolver</Text>
-                  <br />
-                  Een resolver is een functie die ervoor zorgt dat de data voor een veld in het schema wordt gevuld. In
-                  onze GraphQL server, wordt de resolver gebruikt om data op te halen bij een REST endpoint en deze data
-                  terug te geven in een response object. In de mock oplossing moet de resolver een object terug geven
-                  wat voldoet aan de beschreven GraphQL query. Stel als voorbeeld dat de query er als volgt uitziet.
+                  <br />A resolver is a function that fills the data for a field in the schema. In our GraphQL server,
+                  the resolver is used to fetch data from a REST endpoint and return that data in a response object. In
+                  the mock solution, the resolver should return an object that meets the described GraphQL query. Let's
+                  consider an example query:
                   <SyntaxHighlighter customStyle={{ fontSize: '12px' }} language="gql" style={docco}>
                     {moreInfoQueryExample.trim()}
                   </SyntaxHighlighter>
-                  De titel en de auteur zijn verplichte velden (te herkennen aan de <Text code>!</Text> achter het
-                  veldtype. Het aantal pagina's is optioneel gevuld.
-                  <br /> Daarmee kan de resolver er als volgt uit zien
+                  The title and author are mandatory fields (indicated by the <Text code>!</Text> after the field type),
+                  while the number of pages is an optional field.
+                  <br />
+                  The resolver for this can be implemented as follows:
                   <SyntaxHighlighter customStyle={{ fontSize: '12px' }} language="typescript" style={docco}>
                     {moreInfoResolverExample.trim()}
                   </SyntaxHighlighter>
+                  In this example, the resolver function is assigned to the <Text code>Query</Text> type, and
+                  specifically to the
+                  <Text code>books</Text> field. It returns an object with the mandatory fields <Text code>title</Text>{' '}
+                  and
+                  <Text code>author</Text>, and an optional field <Text code>pages</Text> that may or may not be
+                  included in the response.
                 </Paragraph>
               </>
             ),
           },
           {
-            label: 'Oplossing',
+            label: 'Solution',
             key: '3',
             disabled: !solutionEnabled,
             children: (
               <>
                 <Paragraph>
-                  Zoals je kan zien in de resolver functie in onderstaande oplossing, is niet elke veld opgenomen in de
-                  response, wat wel is beschreven in het query return type.
+                  As you can see in the resolver function in the provided solution, not every field is included in the
+                  response, even though it is described in the query return type.
                   <br />
-                  Eén van de voordelen van een Apollo mock server gebruiken, is dat je niet zelf de volledige response
-                  hoeft te maken.
+                  One of the advantages of using an Apollo mock server is that you don't have to create the entire
+                  response yourself.
                   <br />
-                  Alle velden die niet in jouw resolver zitten, worden automatisch toegevoegd met een standaard waarde.
+                  <Text underline>
+                    All fields that are not included in your resolver will be automatically added with a default value.
+                  </Text>
                 </Paragraph>
                 <Divider orientation="left">
                   <Text
