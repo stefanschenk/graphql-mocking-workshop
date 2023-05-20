@@ -99,7 +99,7 @@ const PanelAssignment02: React.FC<
                   }
                   type="info"
                   showIcon
-                  style={{ marginBottom: '20px' }}
+                  style={{ marginBottom: '20px', maxWidth: '900px' }}
                 />
 
                 <Checkbox
