@@ -1,5 +1,5 @@
-import { Button, Checkbox, Collapse, CollapsePanelProps, Divider, Space, Tabs, Typography } from 'antd';
-import { BookOutlined, CheckOutlined, CopyOutlined } from '@ant-design/icons';
+import { Alert, Button, Checkbox, Collapse, CollapsePanelProps, Divider, Space, Tabs, Typography } from 'antd';
+import { BookOutlined, CheckOutlined, CopyOutlined, WarningTwoTone } from '@ant-design/icons';
 import { CheckboxChangeEvent } from 'antd/es/checkbox';
 import React from 'react';
 import useLocalStorage from '../../hooks/useLocalStorage';
@@ -85,6 +85,22 @@ const PanelAssignment02: React.FC<
                   </Link>{' '}
                   in this app, and you get to see your simulated response in Land types panel
                 </Paragraph>
+
+                <Alert
+                  message={
+                    <>
+                      After making changes to <Text code>apollo-server.ts</Text> do not forget to restart the apollo
+                      server by running{' '}
+                      <Text code copyable>
+                        npm run start:apollo
+                      </Text>{' '}
+                      again.
+                    </>
+                  }
+                  type="info"
+                  showIcon
+                  style={{ marginBottom: '20px' }}
+                />
 
                 <Checkbox
                   checked={solutionEnabled}
