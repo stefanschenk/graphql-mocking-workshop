@@ -28,7 +28,7 @@ const PanelAssignment05: React.FC<
       {...props}
       extra={
         <Checkbox checked={finished} disabled>
-          afgerond
+          completed
         </Checkbox>
       }
     >
@@ -36,12 +36,12 @@ const PanelAssignment05: React.FC<
         defaultActiveKey="1"
         items={[
           {
-            label: 'Opdracht',
+            label: 'Assignment',
             key: '1',
             children: (
               <>
                 <Paragraph>
-                  Tot nu toe hebben we steeds met vaste data gewerkt in onze resolver(s). Wat we nu gaan doen is{' '}
+                  So far, we have been working with fixed data in our resolvers. What we are going to do now is adding a{' '}
                   <a
                     href="https://redux-toolkit.js.org/introduction/getting-started"
                     target="_blank"
@@ -49,93 +49,113 @@ const PanelAssignment05: React.FC<
                   >
                     redux store
                   </a>{' '}
-                  toevoegen waarin we onze gesimuleerde data kunnen opslaan en manipuleren
+                  in which we can store our simulated data and manipulate it.
                 </Paragraph>
                 <Paragraph>
-                  Om dit te kunnen doen is Redux Toolkit toegevoegd aan het project.
+                  To achieve this, Redux Toolkit has been added to the project.
                   <br />
-                  In de directory <Text strong>store</Text> staat een <Text code>store.ts</Text> bestand en is er een
-                  voorbeeld Redux setup gemaakt voor <Text code>catalogLandTypes</Text>.<br />
-                  Op basis van dit voorbeeld kan je <Text italic>Reducers</Text> en <Text italic>Selectors</Text> maken
-                  voor de andere queries die uitgevoerd kunnen worden.
+                  In the <Text strong>store</Text> directory, you will find a <Text code>store.ts</Text> file, and there
+                  is an example Redux setup created for <Text code>catalogLandTypes</Text>.<br />
+                  Based on this example, you can create <Text italic>reducers</Text> and <Text italic>selectors</Text>{' '}
+                  for other queries that can be executed.
                 </Paragraph>
                 <Paragraph>
-                  Een Redux store is opgebouwd uit meerdere <Text italic>slices</Text>. Een <Text italic>slice</Text>{' '}
-                  beschrijft wat er opgeslagen kan worden in de store, bepaalt de initiële vulling en definieert{' '}
-                  <Text italic>reducers</Text>,<br /> methodes die je gebruikt om informatie op te halen uit de{' '}
-                  <Text italic>slice</Text> of toe te voegen en te wijzigen.
+                  A Redux store is composed of multiple <Text italic>slices</Text>. A <Text italic>slice</Text>{' '}
+                  describes what can be stored in the store, determines the initial state, and defines{' '}
+                  <Text italic>reducers</Text>.<br />
+                  Reducers are methods used to retrieve information from the <Text italic>slice</Text> or add and modify
+                  data within it.
                 </Paragraph>
                 <Paragraph>
-                  Met de <Text italic>store</Text>, <Text italic>reducers</Text> en <Text italic>selectors</Text> die
-                  zijn beschreven voor <Text code>catalogLandTypes</Text> kan je nu de{' '}
-                  <Text code>apollo-server.ts</Text> en <Text code>view-catalog-land-types.spec.ts</Text> zo aanpassen
-                  dat deze gebruik gaan maken van de Redux store.
+                  With the <Text italic>store</Text>, <Text italic>reducers</Text>, and <Text italic>selectors</Text>{' '}
+                  that have been described for <Text code>catalogLandTypes</Text>, you can now modify{' '}
+                  <Text code>apollo-server.ts</Text> and <Text code>view-catalog-land-types.spec.ts</Text> to make use
+                  of the Redux store.
+                  <br />
+                  <br />
+                  To incorporate the Redux store into the apollo-server.ts file and the catalogLandTypes resolver, you
+                  can follow these steps:
                   <ul>
                     <li>
-                      De Redux store moet als parameter meegeven kunnen worden aan de <Text code>apolloServer</Text>{' '}
-                      methode
+                      Modify the <Text code>apolloServer</Text> function to accept the Redux store as a parameter
                     </li>
                     <li>
-                      De store moet doorgegeven worden aan je <Text code>resolvers</Text>. <Text code>resolvers</Text>{' '}
-                      is nu nog een object. Maak hier een functie van die een store als parameter accepteert en een
-                      object retourneert.
+                      Change the <Text code>resolvers</Text> object into a function that accepts the store as a
+                      parameter and returns the resolvers object
                     </li>
                     <li>
-                      De <Text code>catalogLandTypes</Text> resolver, geeft nu direct een object terug met een paar
-                      vaste waardes.
+                      Until now the <Text code>catalogLandTypes</Text> resolver simply returned an object with a few
+                      fixed values.
                       <br />
-                      Verander dit en geef het resultaat terug van het aanroepen van een <Text italic>selector</Text> (
-                      <Text code>getCatalogLandTypes</Text>)<br />
+                      Update the <Text code>catalogLandTypes</Text> resolver to retrieve the data from the Redux store
+                      using a selector (<Text code>getCatalogLandTypes</Text>)
+                      <br />
                       <Text italic>
-                        Een selector verwacht een state als parameter. Met <Text code>store.getState()</Text> krijg je
-                        de huidige state terug.
+                        A selector expects a state as function parameter. With <Text code>store.getState()</Text> you
+                        will get the current state to pass to the selector.
+                      </Text>
+                    </li>
+                  </ul>
+                  By passing the Redux store as a parameter and using selectors to retrieve the data, you can integrate
+                  the Redux store into the Apollo server and ensure that the resolvers access the updated state from the
+                  store.
+                </Paragraph>
+                <Paragraph>
+                  Now make a few changes to <Text code>view-catalog-land-types.spec.ts</Text>:
+                  <ul>
+                    <li>
+                      Import the Redux store and actions at the beginning of the test file and pass the store as
+                      argument when you create a new <Text code>apolloServer</Text> instance.
+                      <br />
+                      <Text italic>
+                        If you run the test now, you will see that it returns a response without any land types. This is
+                        because of the <Text code>initialState</Text> of the store.
                       </Text>
                     </li>
                     <li>
-                      De test <Text code>view-catalog-land-types.spec.ts</Text> moet ook aangepast worden.
+                      Make use of the created <Text italic>reducers</Text> to add or modify test data during the test
                       <br />
-                      Importeer de store en geef deze mee als argument aan de <Text code>apolloServer</Text> methode
-                      <br />
-                      <Text italic>
-                        Als je nu direct de test draait, zal je zien dat er een response zonder land types wordt
-                        teruggegeven. Dit komt door de <Text code>initialState</Text> van de store
-                      </Text>
-                      <br />
-                      Door nu gebruik te maken van de <Text italic>reducers</Text> kan je testdata toevoegen en/of
-                      wijzigen tijdens de test.
-                      <br />
-                      Gebruik bijv. <Text code>addLandTypes</Text> en <Text code>removeLandTypes</Text> op meerdere
-                      plekken in de testcase om land types toe te voegen of te verwijderen en deze als response in de
-                      frontend terug te krijgen.
+                      For instance use <Text code>addLandTypes</Text> and <Text code>removeLandTypes</Text> on multiple
+                      locations within the testcase to add land types to the current state. Or remove land types from
+                      the state. When returning a response to the frontend, this will now use the current state to
+                      return the intended land types.
                     </li>
                   </ul>
                 </Paragraph>
                 <Paragraph>
-                  Een reducer is niet een functie die je zo kunt aanroepen, het is een <Text italic>action</Text> die je{' '}
-                  <Text strong>moet</Text> uitvoeren doormiddel van de <Text code>store.dispatch</Text> methode.
+                  A reducer is not a function that you can directly invoke; it is an <Text italic>action</Text> that you{' '}
+                  <Text strong>must</Text> execute using the <Text code>store.dispatch</Text> method.
                   <br />
-                  Bijv. <Text code>store.dispatch(addLandTypes(payload?))</Text>
+                  For example:
+                  <Text code>store.dispatch(addLandTypes(payload))</Text>
+                  <br />
+                  In this case the payload would be an array of land types (string)
                 </Paragraph>
 
                 <Paragraph>
-                  Deze opdracht is afgerond als je de Playwright test <Text code>view-catalog-land-types.spec.ts</Text>{' '}
-                  succesvol kan uitvoeren en je tijdens de test data hebt toegevoegd of gewijzigd.
+                  This assignment is completed when you successfully run the Playwright testcase{' '}
+                  <Text code>view-catalog-land-types.spec.ts</Text> and you have added and/or modified the data during
+                  the test.
                   <br />
-                  Maak zelf extra <Text italic>slices en selectors</Text> aan en breidt de store hiermee uit.
+                  Now create additional <Text italic>slices en selectors</Text> and use these to extend the store.
                   <br />
-                  Maak extra testcases aan om ook andere pagina's en GraphQL queries te testen.
+                  You can now import and use your selectors in your <Text code>apollo-server.ts</Text>.
+                  <br />
+                  Create additional testcases to also test the other pages in this web application.
+                  <br />
+                  Remember to dispatch actions using store.dispatch to update the state of your slice.
                 </Paragraph>
                 <Paragraph>
-                  Bekijk <Text strong>Meer info</Text> om een voorbeeld te zien hoe je het <Text code>test</Text> object
-                  van Playwright kan extenden, zodat je maar één keer de <Text code>route</Text> hoeft te beschrijven
-                  voor alles testcases.
+                  View <Text strong>More info</Text> for an example on how to extend the Playwright{' '}
+                  <Text code>test</Text> object to define the <Text code>route</Text> once and reuse it for multiple
+                  testcases.
                 </Paragraph>
 
                 <Checkbox
                   checked={solutionEnabled}
                   onChange={(e: CheckboxChangeEvent) => setSolutionEnabled(e.target.checked)}
                 >
-                  toon de oplossing
+                  show the solution
                 </Checkbox>
                 <Divider plain />
                 <Button onClick={onClick} size="small" shape="round" type="primary">
@@ -145,7 +165,7 @@ const PanelAssignment05: React.FC<
             ),
           },
           {
-            label: 'Meer info',
+            label: 'More info',
             key: '2',
             children: (
               <>
@@ -211,7 +231,7 @@ const PanelAssignment05: React.FC<
             ),
           },
           {
-            label: 'Oplossing',
+            label: 'Solution',
             key: '3',
             disabled: !solutionEnabled,
             children: (
