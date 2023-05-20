@@ -39,8 +39,8 @@ const PanelArtistNames: React.FC<CollapsePanelProps> = props => {
         refresh
       </Button>
       <Divider plain />
-      <Badge.Ribbon style={{ zIndex: 99 }} text={`${data?.catalogArtistNames.total_values} artiesten`} />
-      {/*<Text >{data?.catalogArtistNames.total_values} Artiesten</Text>*/}
+      <Badge.Ribbon style={{ zIndex: 99 }} text={`${data?.catalogArtistNames.total_values} artists`} />
+      {/*<Text >{data?.catalogArtistNames.total_values} Artists</Text>*/}
       <List
         style={{ overflow: 'auto', maxHeight: '300px' }}
         dataSource={data?.catalogArtistNames.data}
