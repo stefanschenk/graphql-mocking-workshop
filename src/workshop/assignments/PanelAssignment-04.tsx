@@ -28,7 +28,7 @@ const PanelAssignment04: React.FC<
       {...props}
       extra={
         <Checkbox checked={finished} disabled>
-          afgerond
+          completed
         </Checkbox>
       }
     >
@@ -36,86 +36,86 @@ const PanelAssignment04: React.FC<
         defaultActiveKey="1"
         items={[
           {
-            label: 'Opdracht',
+            label: 'Assignment',
             key: '1',
             children: (
               <>
                 <Paragraph>
-                  Eén van de issue die ik ben tegengekomen, is dat de Apollo server in zijn eigen proces draait.
+                  One of the issues I encountered is that the Apollo server runs in its own process.
                   <br />
-                  Eenmaal gestart, dan kan je geen mutaties doen aan de gesimuleerde data die de server kan terug geven.
+                  Once it's started, you cannot make mutations to the simulated data that the server can return.
                   <br />
-                  Terwijl je juist de flexibiliteit wilt hebben om je data te manipuleren al naar gelang wat je testcase
-                  nodig heeft.
+                  However, you want the flexibility to manipulate your data as needed for your test cases.
                 </Paragraph>
                 <Paragraph>
-                  Wat we in deze opdracht gaan doen, is de Apollo server niet meer starten als standalone server. Maar
-                  we gaan er een functie van maken die voor (elke) test een nieuwe instantie maakt als in-memory server.
+                  In this task, we will no longer start the Apollo server as a standalone server. Instead, we will turn
+                  it into a function that creates a new instance as an in-memory server for each test.
                   <br />
-                  We gebruiken een testtool (<Text italic>Playwright</Text>) die de mogelijkheid heeft om network
-                  requests te monitoren en responses aan te passen. Hiermee gaan we de GraphQL requests die voorbij
-                  komen afvangen en de GraphQL operatie direct op de in-memory server uitvoeren.
+                  We will use a testing tool (<Text italic>Playwright</Text>) that has the ability to monitor and
+                  intercept network requests and can modify responses. With this tool, we will intercept the outgoing
+                  GraphQL requests and execute the GraphQL operation directly on the in-memory server.
                   <br />
-                  Het resultaat van de GraphQL operatie wordt vervolgens als response geretourneerd naar de frontend.
+                  The result of the GraphQL operation will then be returned as a response to the frontend.
                 </Paragraph>
                 <Paragraph>
-                  De functie die hiervoor beschikbaar is op je Apollo server instantie is:{' '}
+                  The function available on your Apollo server instance for this purpose is called:{' '}
                   <Text code>executeOperation</Text>
                 </Paragraph>
                 <Paragraph>
-                  De methode die we gaan gebruiken binnen Playwright is{' '}
+                  The method we will use within Playwright is{' '}
                   <a
                     href="https://playwright.dev/docs/network#modify-requests"
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    requests wijzigen met page.route
+                    modify requests with page.route
                   </a>
                 </Paragraph>
                 <Paragraph>
+                  Execute the following steps:
                   <ul>
                     <li>
-                      In <Text code>apollo-server.ts</Text>, exporteer een methode die een nieuwe instantie van een{' '}
-                      <Text code>ApolloServer</Text> retourneert
+                      In <Text code>apollo-server.ts</Text>, export a method that returns a new instance of an{' '}
+                      <Text code>ApolloServer</Text>.
                       <br />
                     </li>
                     <li>
-                      Verwijder de aanroep naar <Text code>server.listen</Text>
+                      Remove the call to <Text code>server.listen</Text>
                     </li>
                     <li>
-                      Pas <Text code>view-catalog-land-types.spec.ts</Text> aan
-                      <li>maak een nieuwe instantie van Apollo server</li>
+                      Modify <Text code>view-catalog-land-types.spec.ts</Text>:
+                      <li>Create a new instance of Apollo server</li>
                       <li>
-                        voeg een <Text code>page.route</Text> die GraphQL requests kan afvangen
+                        Add a <Text code>page.route</Text>
+                        to intercept GraphQL requests.
                         <br />
-                        tip: <Text code>executeOperation</Text> verwacht een object van het type{' '}
-                        <Text code>GraphQLRequest</Text>, je kan de body uit het afgevangen request gebruiken om dit
-                        object te maken
+                        Note: <Text code>executeOperation</Text> expects an object of type{' '}
+                        <Text code>GraphQLRequest</Text>. You can use the body from the intercepted request to create
+                        this object.
                       </li>
                       <li>
-                        Maak gebruik van de <Text code>executeOperation</Text> methode
+                        Utilize the <Text code>executeOperation</Text> method
                       </li>
                       <li>
-                        Gebruik <Text code>route.fulfill</Text> om het resultaat van de{' '}
-                        <Text code>executeOperation</Text> als response te versturen
+                        Use <Text code>route.fulfill</Text> to send the result of <Text code>executeOperation</Text>
+                        as the response.
                       </li>
                     </li>
                   </ul>
                 </Paragraph>
-
                 <Paragraph>
-                  Deze opdracht is afgerond als je succesvol de testcase{' '}
-                  <Text strong>view-catalog-land-types.spec.ts</Text> kan draaien
+                  This assignment is completed when you can successful run the testcase{' '}
+                  <Text strong>view-catalog-land-types.spec.ts</Text>
                   <br />
-                  Je kan een enkele Playwright test starten met het volgende commando:{' '}
+                  <br />
+                  You can start a single Playwright test with the following command:{' '}
                   <Text code>{`npx playwright test <bestandsnaam> --headed`}</Text>
                 </Paragraph>
-
                 <Checkbox
                   checked={solutionEnabled}
                   onChange={(e: CheckboxChangeEvent) => setSolutionEnabled(e.target.checked)}
                 >
-                  toon de oplossing
+                  show the solution
                 </Checkbox>
                 <Divider plain />
                 <Button onClick={onClick} size="small" shape="round" type="primary">
@@ -125,7 +125,7 @@ const PanelAssignment04: React.FC<
             ),
           },
           {
-            label: 'Meer info',
+            label: 'More info',
             key: '2',
             disabled: true,
             children: (
@@ -137,7 +137,7 @@ const PanelAssignment04: React.FC<
             ),
           },
           {
-            label: 'Oplossing',
+            label: 'Solution',
             key: '3',
             disabled: !solutionEnabled,
             children: (
