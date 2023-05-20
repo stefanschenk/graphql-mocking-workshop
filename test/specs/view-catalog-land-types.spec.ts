@@ -16,7 +16,7 @@ test('View Catalog Land types', async ({ page }) => {
   await page.locator('.ant-menu-item', { hasText: 'Catalog' }).click();
   await page.locator('.ant-collapse-item', { hasText: 'Land types' }).click();
 
-  await expect(page.locator('.ant-tag')).toHaveCount(13);
-  await expect(page.locator('.ant-tag').nth(0)).toHaveText('Desert');
-  await expect(page.locator('.ant-tag').nth(1)).toHaveText('Forest');
+  await expect(page.locator('.ant-tag')).toHaveCount(15);
+  await expect(page.locator('.ant-tag').nth(0)).toHaveText('Cloud');
+  await expect(page.locator('.ant-tag').nth(1)).toHaveText('Desert');
 });
