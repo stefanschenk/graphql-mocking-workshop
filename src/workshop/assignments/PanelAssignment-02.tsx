@@ -1,5 +1,5 @@
 import { Alert, Button, Checkbox, Collapse, CollapsePanelProps, Divider, Space, Tabs, Typography } from 'antd';
-import { BookOutlined, CheckOutlined, CopyOutlined, WarningTwoTone } from '@ant-design/icons';
+import { BookOutlined, CheckOutlined, CopyOutlined } from '@ant-design/icons';
 import { CheckboxChangeEvent } from 'antd/es/checkbox';
 import React from 'react';
 import useLocalStorage from '../../hooks/useLocalStorage';
