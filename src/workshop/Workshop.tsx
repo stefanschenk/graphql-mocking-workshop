@@ -32,32 +32,37 @@ const Workshop: React.FC = () => {
         <Breadcrumb.Item>Welcome</Breadcrumb.Item>
       </Breadcrumb>
       <div className="site-layout-background" style={{ padding: 24, minHeight: 360 }}>
-        <Text strong>Workshop testing an UI application with GraphQL mocking</Text>
+        <Text strong>
+          Workshop create testdata mocks using GraphQL and Redux
+          <br />
+        </Text>
+        <Text>and use it to test a UI application</Text>
         <Divider plain />
         <Collapse accordion activeKey={activeKey} defaultActiveKey="intro" onChange={onPanelChange}>
           <Panel
-            header="Introductie"
+            header="Introduction"
             key="intro"
             extra={
               <Checkbox checked={finished} disabled>
-                afgerond
+                completed
               </Checkbox>
             }
           >
             <Paragraph>
-              In deze workshop gaan we aan de slag met Apollo GraphQL, Redux (SQLite) en Playwright om een test op te
-              zetten die gebruik maakt van gesimuleerde data in plaats van de echte GraphQL server.
+              In this workshop, we will work with Apollo GraphQL, Redux and Playwright to set up a test that utilizes
+              simulated data instead of the actual GraphQL server.
             </Paragraph>
             <Paragraph>
-              Op de volgende pagina's kan je informatie vinden over onderdelen die we gebruiken tijdens deze workshop
+              On the following pages, you can find information about the components we will be using during this
+              workshop.
               <ul>
                 <li>
                   <a
-                    href="https://www.apollographql.com/docs/apollo-server/testing/mocking"
+                    href="https://www.apollographql.com/docs/apollo-server/v2/testing/mocking"
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    Apollo GraphQL Mocking
+                    Apollo GraphQL Mocking (v2)
                   </a>
                 </li>
                 <li>
@@ -85,7 +90,9 @@ const Workshop: React.FC = () => {
                     https://github.com/stefanschenk/graphql-mocking-workshop.git
                   </Text>
                 </li>
-                <li>Node version v16.15.x</li>
+                <li>
+                  Node version <strong>v16.15.x</strong>
+                </li>
                 <li>An IDE, eg. IntelliJ or VSCode</li>
                 <li>experience with Javascript, preferable Typescript and running npm scripts</li>
                 <li>previous experience with (Apollo) GraphQL is not required</li>
@@ -93,32 +100,34 @@ const Workshop: React.FC = () => {
             </Paragraph>
             <Space align="start">
               <Paragraph>
-                Deze applicatie die we gebruiken om onze testen tegen te schrijven, is geschreven in React en maakt
-                gebruik van <Text code>@apollo/client</Text> om te communiceren met de GraphQL server.
+                This application, which contains all workshop assignments and is used to write our playwright tests
+                against, is written in React and utilizes <Text code>@apollo/client</Text> to communicate with the
+                GraphQL server.
                 <br />
-                De GraphQL server is bereikbaar op{' '}
+                The GraphQL server can be reached on{' '}
                 <a href="https://klankentapper.ssk-hosting.nl/graphql/data" target="_blank" rel="noopener noreferrer">
                   https://klankentapper.ssk-hosting.nl/graphql/data
                 </a>{' '}
-                (klik op de link om de GraphQL Playground te openen)
+                (click on this link to open the GraphQL Playground)
                 <br />
-                Elk van de menu items links, opent een pagina waarop het resultaat van een of meerdere GraphQL queries
-                wordt getoond. De data die we tonen, wordt via de GraphQL server, opgehaald bij{' '}
+                Each of the menu items on the left side, opens a web page on which the result will be shown of one or
+                more GraphQL queries. The data that is shown is fetched from the GraphQL server, which in turn fetches
+                the data from{' '}
                 <a href="https://scryfall.com/docs/api" target="_blank" rel="noopener noreferrer">
                   scryfall.com
                 </a>{' '}
-                een API voor <Text strong>Magic: The Gathering</Text> kaarten.
+                an API for <Text strong>Magic: The Gathering</Text> cards.
                 <br />
-                Afbeeldingen die getoond worden, worden <Text underline>niet</Text> gequeried via GraphQL, maar worden
-                direct opgehaald bij een scryfall CDN.
+                The images that are displayed are <Text underline>not</Text> queried via GraphQL, but are directly
+                fetched from a Scryfall CDN.
                 <Divider plain />
-                Open de developer tools en ga naar de <Text strong>Network</Text> tab en klik vervolgens links een
-                aantal van de menu items aan. Bekijk de requests die gedaan worden naar het <Text code>data</Text>{' '}
-                endpoint. In de <Text strong>Payload</Text> tab kan je goed zien welke graphql query wordt opgevraagd en
-                in de <Text strong>Preview</Text> of <Text strong>Response</Text> tab zie je response die van de GraphQL
-                server terug komt.
+                "Open the developer tools and go to the <Text strong>Network</Text> tab. Then, click on several of the
+                menu items on the left. Examine the requests made to the <Text code>data</Text> endpoint. In the{' '}
+                <Text strong>Payload</Text> tab, you can see the GraphQL query being requested, and in the{' '}
+                <Text strong>Preview</Text> or <Text strong>Response</Text> tab, you can see the response returned from
+                the GraphQL server.
                 <Divider plain />
-                Verder op deze pagina vind je alle opdrachten die we gaan doen, met extra benodigde instructies.
+                Further on this page, you will find all the tasks we will be doing, along with additional instructions.
               </Paragraph>
               <Image src={diagram} width="600px" preview={false} />
             </Space>
@@ -129,32 +138,32 @@ const Workshop: React.FC = () => {
           </Panel>
           <PanelAssignment01
             key="assignment:01"
-            header="Opdracht 1 - Maak een Apollo GraphQL server aan"
+            header="Assignment 1 - Create an Apollo GraphQL server"
             setActiveKey={setActiveKey}
           />
           <PanelAssignment02
             key="assignment:02"
-            header="Opdracht 2 - Mock response aanpassen"
+            header="Assignment 2 - Adjusting mock response"
             setActiveKey={setActiveKey}
           />
           <PanelAssignment03
             key="assignment:03"
-            header="Opdracht 3 - Gebruik maken van het Graphql schema van de server"
+            header="Assignment 3 - Utilize the Graphql schema of the server"
             setActiveKey={setActiveKey}
           />
           <PanelAssignment04
             key="assignment:04"
-            header="Opdracht 4 - Manipuleren van testdata vanuit de test, afvangen van GraphQL requests in je testcase"
+            header="Assignment 4 - Manipulating test data from within the test :: intercepting GraphQL requests in your test case"
             setActiveKey={setActiveKey}
           />
           <Panel
             key="intermission"
-            header={<Text strong>Centraal - uitleg redux state obv. voorbeeld bestanden</Text>}
+            header={<Text strong>Together - explanation of Redux state based on example files</Text>}
             showArrow={false}
           />
           <PanelAssignment05
             key="assignment:05"
-            header="Opdracht 5 - Manipuleren van testdata vanuit de test, state management"
+            header="Assignment 5 - Manipulating test data from within the test :: state management"
             setActiveKey={setActiveKey}
           />
         </Collapse>

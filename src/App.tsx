@@ -117,7 +117,9 @@ const App: React.FC = () => {
             <Route path="/sets/list/:setCode" element={<Set />} />
             <Route path="/search" element={<Search />} />
           </Routes>
-          <Footer style={{ textAlign: 'center' }}>Stefan Schenk - deTesters :: Workshop testen met GraphQL</Footer>
+          <Footer style={{ textAlign: 'center' }}>
+            Stefan Schenk - deTesters :: Workshop create testdata mocks using GraphQL and Redux
+          </Footer>
         </Layout>
       </Layout>
     </>

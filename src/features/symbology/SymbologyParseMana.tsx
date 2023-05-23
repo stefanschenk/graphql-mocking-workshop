@@ -43,7 +43,7 @@ const SymbologyParseMana: React.FC = () => {
         <Breadcrumb.Item>Parse Mana</Breadcrumb.Item>
       </Breadcrumb>
       <div className="site-layout-background" style={{ padding: 24, minHeight: 360 }}>
-        <Text strong>Parse de opgegeven Mana Cost</Text>
+        <Text strong>Parse the given Mana Cost</Text>
         <Divider plain />
         <Form form={form} onFinish={onFinish} initialValues={{ cost: '1BG' }}>
           <Form.Item name="cost" label="Mana Cost" rules={[{ required: true }]}>

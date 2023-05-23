@@ -14,7 +14,7 @@ export type CatalogLandTypesState = {
 
 /**
  * The initial state. You could make this an empty object {} and let our mock Apollo server
- * use it's default mock values when haven't created any testdata.
+ * use its default mock values when haven't created any testdata.
  * Or you could set it to empty list or string etc.
  */
 const initialState: CatalogLandTypesState = {

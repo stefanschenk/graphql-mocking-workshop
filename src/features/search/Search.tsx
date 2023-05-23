@@ -114,7 +114,7 @@ const Search: React.FC = () => {
                         })
                       }
                     >
-                      Bekijk alle prints
+                      View all prints
                     </Text>
                     <ArrowRightOutlined />
                   </Space>

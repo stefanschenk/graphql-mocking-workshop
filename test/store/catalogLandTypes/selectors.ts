@@ -13,7 +13,7 @@ const selectCatalogLandTypesSlice = (state: RootState) => state.catalogLandTypes
  * In the callback function you can manipulate data from the store or combine data from multiple slices before returning it
  * to the calling function.
  * Selectors can be called directly from other functions and require the current state as parameter
- * eg. getCatalogLandTypes(store.getState())
+ * e.g. getCatalogLandTypes(store.getState())
  */
 export const getCatalogLandTypes = createSelector(selectCatalogLandTypesSlice, catalogLandTypes => {
   return catalogLandTypes.catalogLandTypes;
