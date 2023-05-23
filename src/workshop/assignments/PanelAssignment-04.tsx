@@ -80,7 +80,7 @@ const PanelAssignment04: React.FC<
                       <br />
                     </li>
                     <li>
-                      Remove the call to <Text code>server.listen</Text>
+                      Remove the call to <Text code>startStandaloneServer</Text>
                     </li>
                     <li>
                       Modify <Text code>view-catalog-land-types.spec.ts</Text>:
@@ -92,6 +92,10 @@ const PanelAssignment04: React.FC<
                         Note: <Text code>executeOperation</Text> expects an object of type{' '}
                         <Text code>GraphQLRequest</Text>. You can use the body from the intercepted request to create
                         this object.
+                        <br />
+                        Please take a good look at the link in the <Text italic>More info</Text> tab to see how{' '}
+                        <Text code>executeOperation</Text>
+                        is used.
                       </li>
                       <li>
                         Utilize the <Text code>executeOperation</Text> method
@@ -127,11 +131,45 @@ const PanelAssignment04: React.FC<
           {
             label: 'More info',
             key: '2',
-            disabled: true,
             children: (
               <>
                 <Paragraph>
-                  <Text strong>More info</Text>
+                  <Text strong>executeOperation</Text>
+                  <br />
+                  <a
+                    href="https://www.apollographql.com/docs/apollo-server/testing/testing/#testing-using-executeoperation"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    testing using executeOperation
+                  </a>
+                </Paragraph>
+                <Paragraph>
+                  <Text strong>Playwright page.route</Text>
+                  <br />
+                  When handling requests through <Text code>page.route</Text>, you can use two parameters;{' '}
+                  <Text code>route</Text> and <Text code>request</Text>. The <Text code>request</Text> object contains
+                  the request as it is sent by the application.
+                  <br />
+                  For our situation, we would like to extract the body from that request by using{' '}
+                  <Text code>const body = request.postDataJSON()</Text>. And we would like to use that body to create a
+                  GraphQL request that we can send to our apollo server though <Text code>executeOperation</Text>.
+                  <br />
+                  <br />
+                  To this end we create a new Object in Typescript which should match the{' '}
+                  <Text code>GraphQLRequest</Text> type. For example:
+                  <SyntaxHighlighter customStyle={{ fontSize: '12px' }} language="typescript" style={docco}>
+                    {moreInfoGraphqlRequestExample.trim()}
+                  </SyntaxHighlighter>
+                </Paragraph>
+                <Paragraph>
+                  This request could then be used as parameter in the <Text code>executeOperation</Text> function call.
+                </Paragraph>
+                <Paragraph>
+                  This call we then result in a response. As you can see in the link above, you need to check this
+                  response. Assert it has a certain kind and then use the result from the response body. This result can
+                  then be used in the <Text code>route.fulfill</Text> method from Playwright. And this response will be
+                  sent to the web application that did the original request.
                 </Paragraph>
               </>
             ),
@@ -212,11 +250,18 @@ const PanelAssignment04: React.FC<
   );
 };
 
+const moreInfoGraphqlRequestExample = `
+const graphqlRequest: GraphQLRequest = {
+  ...body,
+};
+`;
+
 const solutionApolloServer = `
 /**
  * This file will be used in all assignments - it will contain all the code for your mock Apollo server
  */
-import { ApolloServer } from 'apollo-server';
+import { ApolloServer } from '@apollo/server';
+import { addMocksToSchema } from '@graphql-tools/mock';
 import { buildClientSchema } from 'graphql';
 import { DeepPartial } from 'ts-essentials';
 import { GqlCatalogType } from '../src/graphql-schema.generated';
@@ -225,21 +270,31 @@ const introspectionResult = require('../graphql.schema.json');
 
 const schema = buildClientSchema(introspectionResult);
 
+/**
+ * Now that we have generated the schema, we can also provide a return type
+ * to the resolver function.
+ * As mentioned in the solution for assignment 2, it is not necessary to create a
+ * complete response object because Apollo provides default values for all undefined fields.
+ * The \`DeepPartial<>\` type makes all attributes in a type optional, in this case making
+ * all attributes of \`GqlCatalogType\` optional.
+ */
 const resolvers = {
-  Query: () => ({
+  Query: {
     catalogLandTypes: (): DeepPartial<GqlCatalogType> => {
       return {
         data: ['weiland', 'steppe', 'woestijn'],
       };
     },
-  }),
+  },
 };
 
 export const apolloServer = () =>
   new ApolloServer({
-    schema,
-    mocks: resolvers,
-    mockEntireSchema: false,
+    schema: addMocksToSchema({
+      schema,
+      mocks: resolvers,
+      preserveResolvers: false,
+    }),
   });
 `;
 
@@ -247,6 +302,7 @@ const solutionTestcase = `
 import { GraphQLRequest } from '@apollo/client';
 import { expect, test } from '@playwright/test';
 import { apolloServer } from '../apollo-server';
+import assert from 'assert';
 
 const server = apolloServer();
 
@@ -261,9 +317,13 @@ test('View Catalog Land types', async ({ page }) => {
       ...body,
     };
 
-    const result = await server.executeOperation(graphqlRequest);
+    const response = await server.executeOperation(graphqlRequest);
 
-    route.fulfill({
+    assert(response.body.kind === 'single');
+
+    const result = response.body.singleResult;
+
+    await route.fulfill({
       status: 200,
       contentType: 'application/json',
       body: JSON.stringify(result),
