@@ -44,7 +44,7 @@ const PanelAssignment02: React.FC<
                 <Paragraph>
                   At{' '}
                   <a
-                    href="https://www.apollographql.com/docs/apollo-server/v2/testing/mocking#customizing-mocks"
+                    href="https://www.apollographql.com/docs/apollo-server/testing/mocking#customizing-mocks"
                     target="_blank"
                     rel="noopener noreferrer"
                   >
@@ -52,8 +52,8 @@ const PanelAssignment02: React.FC<
                   </a>{' '}
                   documentation can be found for Apollo Server on how to customize mocks
                   <br />
-                  We are now going to modify <Text code>apollo-server.ts</Text> and add a query to the{' '}
-                  <Text code>typedefs</Text> and also add a resolver that will provide us with the correct response.
+                  We are now going to modify <Text code>apollo-server.ts</Text> and add a new query to the{' '}
+                  <Text code>typedefs</Text> and also add a new resolver that will provide us with the correct response.
                   <br />
                   The query we will use for this is <Text strong>catalog - land types</Text>
                 </Paragraph>
@@ -71,8 +71,20 @@ const PanelAssignment02: React.FC<
                 <Paragraph>
                   The default behavior for mocks is that they override the resolvers defined in the schema.
                   <br />
-                  If you want your resolvers to be used in the mock response, you need to set the option{' '}
-                  <Text code>mockEntireSchema</Text> to <Text code>false</Text> in your Apollo server.
+                  In this case the resolver we just wrote is part of the executable schema. So we would like these
+                  resolvers to be used in the mock response. For this you need to set the option{' '}
+                  <Text code>preserveResolvers</Text> to <Text code>true</Text> in your Apollo server.
+                  <br />
+                  See{' '}
+                  <a
+                    href="https://www.apollographql.com/docs/apollo-server/testing/mocking/#using-existing-resolvers-with-mocks"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Using existing resolvers with mocks
+                  </a>
+                  .<br />
+                  Just play around with this property to see the differences.
                 </Paragraph>
 
                 <Paragraph>
@@ -230,9 +242,12 @@ const solution = `
 /**
  * This file will be used in all assignments - it will contain all the code for your mock Apollo server
  */
-import { ApolloServer, gql } from 'apollo-server';
+import { ApolloServer } from '@apollo/server';
+import { addMocksToSchema } from '@graphql-tools/mock';
+import { makeExecutableSchema } from '@graphql-tools/schema';
+import { startStandaloneServer } from '@apollo/server/standalone';
 
-const typeDefs = gql\`
+const typeDefs = \`#graphql
   type CatalogType {
     object: String!
     uri: String!
@@ -241,8 +256,9 @@ const typeDefs = gql\`
   }
 
   type Query {
-    hello: String
     catalogLandTypes: CatalogType
+    hello: String
+    resolved: String
   }
 \`;
 
@@ -253,19 +269,20 @@ const resolvers = {
         data: ['weiland', 'steppe', 'woestijn'],
       };
     },
+    resolved: () => 'Resolved',
   },
 };
 
 const server = new ApolloServer({
-  typeDefs,
-  resolvers,
-  mocks: true,
-  mockEntireSchema: false,
+  schema: addMocksToSchema({
+    schema: makeExecutableSchema({ typeDefs, resolvers }),
+    preserveResolvers: true,
+  }),
 });
 
-server.listen().then(({ url }) => {
-  console.log(\`🚀 Server ready at \${url}\`);
-});
+startStandaloneServer(server, { listen: { port: 4000 } }).then(result =>
+  console.log(\`🚀 Server listening at: \${result.url}\`),
+);
 
 `;
 

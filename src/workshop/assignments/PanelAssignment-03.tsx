@@ -1,5 +1,5 @@
 import { Alert, Button, Checkbox, Collapse, CollapsePanelProps, Divider, Space, Tabs, Typography } from 'antd';
-import { BookOutlined, CaretRightOutlined, CheckOutlined, CopyOutlined } from '@ant-design/icons';
+import { BookOutlined, CheckOutlined, CopyOutlined } from '@ant-design/icons';
 import { CheckboxChangeEvent } from 'antd/es/checkbox';
 import React from 'react';
 import useLocalStorage from '../../hooks/useLocalStorage';
@@ -43,7 +43,7 @@ const PanelAssignment03: React.FC<
               <>
                 <Paragraph>
                   In the previous task, you had to write the GraphQL schema yourself using a{' '}
-                  <Text code>gql template string</Text>.
+                  <Text code>graphql template string</Text>.
                   <br />
                   To mock all queries and mutations of a GraphQL server, all operations and types need to be defined in
                   the schema (<Text italic>typedefs</Text>). Writing them manually can be a lot of work.
@@ -52,13 +52,13 @@ const PanelAssignment03: React.FC<
                   real GraphQL server.
                 </Paragraph>
                 <Paragraph>
-                  More information about this can be found in the documentation of Apollo Server at{' '}
+                  More information about this can be found in the documentation of GraphQL Tools at{' '}
                   <a
-                    href="https://www.apollographql.com/docs/apollo-server/v2/testing/mocking/#mocking-a-schema-using-introspection"
+                    href="https://the-guild.dev/graphql/tools/docs/mocking#mocking-a-schema-using-introspection"
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    this page (v2)
+                    this page
                   </a>
                 </Paragraph>
                 <Paragraph>
@@ -90,6 +90,21 @@ const PanelAssignment03: React.FC<
                   Modify <Text code>apollo-server.ts</Text> to use the generated schema as the schema for your mock
                   server.
                 </Paragraph>
+                <Paragraph>
+                  You want to use the generated GraphQL types to be used as return type from your own resolver. This way
+                  the response you create will always match the expected response.
+                  <br />
+                  As we mentioned in assignment 2, it is not necessary to provide a complete object to return in the
+                  response. To this end we make use of{' '}
+                  <a
+                    href="https://github.com/ts-essentials/ts-essentials/tree/3f5d46a203cad06728fbf2a089a5b39bd473bf4e/lib/deep-partial"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    DeepPartial
+                  </a>{' '}
+                  to make all fields in the GraphQL type optional.
+                </Paragraph>
 
                 <Paragraph>
                   This assignment is completed when you can run{' '}
@@ -107,36 +122,18 @@ const PanelAssignment03: React.FC<
                     </Space>
                   </Link>{' '}
                   , you should still see your own simulated response that we created in task 2.
-                  <br />
-                  Now is a good time to write a resolver for one or more other queries if you wish.
-                  <br />
+                </Paragraph>
+                <Paragraph>
+                  <Text strong>Now is a good time to write a resolver for one or more other queries if you wish.</Text>
+                </Paragraph>
+                <Paragraph>
                   Remember that you don't have to write the entire response object. You only need to assign values to
                   the fields that you consider important. All other fields will be automatically filled by the mock
                   Apollo server.
-                  <br />
-                  <br />
-                  <Collapse
-                    style={{ maxWidth: '600px' }}
-                    expandIcon={({ isActive }) => <CaretRightOutlined rotate={isActive ? 90 : 0} />}
-                  >
-                    <Panel
-                      key={1}
-                      header={
-                        <Space>
-                          I only see "Hello World" for the <Text italic>Land types</Text> instead of my data.
-                        </Space>
-                      }
-                    >
-                      Now that we are using an introspection schema to provide a schema for our mock server, it no
-                      longer works to pass the <Text code>resolvers</Text> object to the{' '}
-                      <Text italic>resolvers attribute</Text> of our Apollo server.
-                      <br />
-                      Instead, you need to assign the <Text code>resolvers</Text> object to the{' '}
-                      <Text italic>mocks attribute</Text>.
-                      <br />
-                      Please also refer to the information in the <Text strong>More info</Text> tab for further details.
-                    </Panel>
-                  </Collapse>
+                </Paragraph>
+                <Paragraph>
+                  One of the properties of the <Text code>addMocksToSchema</Text> function is <Text code>mocks</Text>.
+                  You can pass the resolvers object you created earlier to this property.
                 </Paragraph>
 
                 <Alert
@@ -247,8 +244,10 @@ const solution = `
 /**
  * This file will be used in all assignments - it will contain all the code for your mock Apollo server
  */
+import { ApolloServer } from '@apollo/server';
+import { addMocksToSchema } from '@graphql-tools/mock';
+import { startStandaloneServer } from '@apollo/server/standalone';
 import { buildClientSchema } from 'graphql';
-import { ApolloServer } from 'apollo-server';
 import { DeepPartial } from 'ts-essentials';
 import { GqlCatalogType } from '../src/graphql-schema.generated';
 
@@ -265,24 +264,26 @@ const schema = buildClientSchema(introspectionResult);
  * all attributes of \`GqlCatalogType\` optional.
  */
 const resolvers = {
-  Query: () => ({
+  Query: {
     catalogLandTypes: (): DeepPartial<GqlCatalogType> => {
       return {
         data: ['weiland', 'steppe', 'woestijn'],
       };
     },
-  }),
+  },
 };
 
 const server = new ApolloServer({
-  schema,
-  mocks: resolvers,
-  mockEntireSchema: false,
+  schema: addMocksToSchema({
+    schema,
+    mocks: resolvers,
+    preserveResolvers: false,
+  }),
 });
 
-server.listen().then(({ url }) => {
-  console.log(\`🚀 Server ready at \${url}\`);
-});
+startStandaloneServer(server, { listen: { port: 4000 } }).then(result =>
+  console.log(\`🚀 Server listening at: \${result.url}\`),
+);
 `;
 
 export default PanelAssignment03;

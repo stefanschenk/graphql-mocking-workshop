@@ -310,7 +310,8 @@ const solutionApolloServer = `
 /**
  * This file will be used in all assignments - it will contain all the code for your mock Apollo server
  */
-import { ApolloServer } from 'apollo-server';
+import { ApolloServer } from '@apollo/server';
+import { addMocksToSchema } from '@graphql-tools/mock';
 import { buildClientSchema } from 'graphql';
 import { DeepPartial } from 'ts-essentials';
 import { GqlCatalogType } from '../src/graphql-schema.generated';
@@ -335,9 +336,11 @@ const resolvers = (store: TestDataStore) => ({
 
 export const apolloServer = (store: TestDataStore) =>
   new ApolloServer({
-    schema,
-    mocks: resolvers(store),
-    mockEntireSchema: false,
+    schema: addMocksToSchema({
+      schema,
+      mocks: resolvers(store),
+      preserveResolvers: false,
+    }),
   });
 `;
 
@@ -347,6 +350,7 @@ import { expect, test } from '@playwright/test';
 import { apolloServer } from '../apollo-server';
 import { addLandTypes, removeLandTypes } from '../store/catalogLandTypes/slice';
 import { store } from '../store/store';
+import assert from 'assert';
 
 const server = apolloServer(store);
 
@@ -361,7 +365,11 @@ test('View Catalog Land types', async ({ page }) => {
       ...body,
     };
 
-    const result = await server.executeOperation(graphqlRequest);
+    const response = await server.executeOperation(graphqlRequest);
+
+    assert(response.body.kind === 'single');
+
+    const result = response.body.singleResult;
 
     route.fulfill({
       status: 200,
@@ -407,6 +415,7 @@ import { GraphQLRequest } from '@apollo/client';
 import { expect, test as base } from '@playwright/test';
 import { apolloServer } from './apollo-server';
 import { store, TestDataStore } from './store/store';
+import assert from 'assert';
 
 /**
  * The _test_ class from Playwright is extended with fixtures (https://playwright.dev/docs/test-fixtures)
@@ -432,7 +441,11 @@ export const test = base.extend<{ setupTest: void; store: TestDataStore }>({
           ...body,
         };
 
-        const result = await server.executeOperation(graphqlRequest);
+        const response = await server.executeOperation(graphqlRequest);
+
+        assert(response.body.kind === 'single');
+
+        const result = response.body.singleResult;
 
         route.fulfill({
           status: 200,

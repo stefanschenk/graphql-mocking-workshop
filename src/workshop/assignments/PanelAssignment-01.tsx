@@ -45,17 +45,17 @@ const PanelAssignment01: React.FC<
                   <br />
                   At{' '}
                   <a
-                    href="https://www.apollographql.com/docs/apollo-server/v2/testing/mocking/#using-default-mocks"
+                    href="https://www.apollographql.com/docs/apollo-server/testing/mocking/#customizing-mocks"
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    this page (v2)
+                    this page
                   </a>{' '}
-                  you will find an explanation on how to use the ApolloServer constructor.
+                  you will find an explanation on how to start with ApolloServer and customizing mocks.
                 </Paragraph>
                 <Paragraph>
-                  Please look at the Default mock example and the part on customizing mocks. Because for now we are not
-                  yet creating mocks utilizing an existing schema.
+                  We are not looking at the <Text italic>Enabling mocks</Text> paragraph, because that part assumes we
+                  are using types and resolvers. But at this moment we will be creating our own.
                 </Paragraph>
                 <Paragraph>
                   For this task, we will utilize the default mocking behavior of Apollo server.
@@ -167,22 +167,33 @@ const solution = `
 /**
  * This file will be used in all assignments - it will contain all the code for your mock Apollo server
  */
-import { ApolloServer, gql } from 'apollo-server';
+import { ApolloServer } from '@apollo/server';
+import { addMocksToSchema } from '@graphql-tools/mock';
+import { makeExecutableSchema } from '@graphql-tools/schema';
+import { startStandaloneServer } from '@apollo/server/standalone';
 
-const typeDefs = gql\`
+const typeDefs = \`#graphql
   type Query {
     hello: String
+    resolved: String
   }
 \`;
 
+const resolvers = {
+  Query: {
+    resolved: () => 'Resolved',
+  },
+};
+
 const server = new ApolloServer({
-  typeDefs,
-  mocks: true,
+  schema: addMocksToSchema({
+    schema: makeExecutableSchema({ typeDefs, resolvers }),
+  }),
 });
 
-server.listen().then(({ url }) => {
-  console.log(\`🚀 Server ready at \${url}\`);
-});
+startStandaloneServer(server, { listen: { port: 4000 } }).then(result =>
+  console.log(\`🚀 Server listening at: \${result.url}\`),
+);
 `;
 
 export default PanelAssignment01;
