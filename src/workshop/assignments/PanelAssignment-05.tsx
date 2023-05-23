@@ -1,5 +1,5 @@
 import { CheckOutlined, CopyOutlined } from '@ant-design/icons';
-import { Button, Checkbox, Collapse, CollapsePanelProps, Divider, Tabs, Typography } from 'antd';
+import { Alert, Button, Checkbox, Collapse, CollapsePanelProps, Divider, Tabs, Typography } from 'antd';
 import { CheckboxChangeEvent } from 'antd/es/checkbox';
 import React from 'react';
 import useLocalStorage from '../../hooks/useLocalStorage';
@@ -100,6 +100,23 @@ const PanelAssignment05: React.FC<
                   the Redux store into the Apollo server and ensure that the resolvers access the updated state from the
                   store.
                 </Paragraph>
+
+                <Alert
+                  message={
+                    <>
+                      To be able to make use of the Redux state in our resolvers, we no longer can pass the resolvers
+                      object to the <Text code>mock</Text> property in <Text code>addMocksToSchema</Text>.
+                      <br />
+                      So delete <Text code>mock: resolvers</Text> and use the following code
+                      <br />
+                      <Text code>{`resolvers: () => ({ Query: resolvers(store).Query() })`}</Text>
+                    </>
+                  }
+                  type="info"
+                  showIcon
+                  style={{ marginBottom: '20px', maxWidth: '1024px' }}
+                />
+
                 <Paragraph>
                   Now make a few changes to <Text code>view-catalog-land-types.spec.ts</Text>:
                   <ul>
@@ -338,7 +355,9 @@ export const apolloServer = (store: TestDataStore) =>
   new ApolloServer({
     schema: addMocksToSchema({
       schema,
-      mocks: resolvers(store),
+      resolvers: () => ({
+        Query: resolvers(store).Query(),
+      }),
       preserveResolvers: false,
     }),
   });
