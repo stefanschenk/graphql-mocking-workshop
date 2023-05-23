@@ -1,7 +1,7 @@
 /**
  * This file will be used in all assignments - it will contain all the code for your mock Apollo server
  */
-import { ApolloServer } from 'apollo-server';
+import { ApolloServer } from '@apollo/server';
 import { buildClientSchema } from 'graphql';
 import { DeepPartial } from 'ts-essentials';
 import { GqlCards, GqlCardSearchQueryVariables, GqlCatalogType, GqlSets } from '../src/graphql-schema.generated';
@@ -9,6 +9,7 @@ import { getCatalogLandTypes } from './store/catalogLandTypes/selectors';
 import { getSearchResult } from './store/search/selectors';
 import { getSetList } from './store/set/selectors';
 import { TestDataStore } from './store/store';
+import { addMocksToSchema } from '@graphql-tools/mock';
 
 const introspectionResult = require('../graphql.schema.json');
 
@@ -34,7 +35,11 @@ const resolvers = (store: TestDataStore) => ({
 
 export const apolloServer = (store: TestDataStore) =>
   new ApolloServer({
-    schema,
-    mocks: resolvers(store),
-    mockEntireSchema: false,
+    schema: addMocksToSchema({
+      schema,
+      resolvers: () => ({
+        Query: resolvers(store).Query(),
+      }),
+      preserveResolvers: false,
+    }),
   });
