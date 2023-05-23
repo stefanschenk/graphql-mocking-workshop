@@ -72,8 +72,8 @@ const PanelAssignment01: React.FC<
                 <Paragraph>
                   Your Apollo server is now running on port <Text code>4000</Text> (by default).
                   <br />
-                  Now, restart this web application, modifying the GraphQL URI with an environment variable to point to
-                  your locally running Apollo server.
+                  Now change the GRAPHQL URI in the <Text code>.env</Text> file to point to this local running server
+                  and restart this web application
                   <br />
                   If you now check the requests in the network tab, you will notice that the GraphQL queries fail
                   because they are not recognized by your Apollo server.
